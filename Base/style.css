@@ -2,8 +2,8 @@
 @import url(https://fonts.googleapis.com/css?family=Press+Start+2P);
 
 :root {
-  --svg-path-base: var(https://dimonet78.github.io/GamePads-Overlays/Base/base.svg));
-  --svg-path-disconnect: var(https://dimonet78.github.io/GamePads-Overlays/Base/disconnect.svg));
+  --svg-path-base: var('https://dimonet78.github.io/GamePads-Overlays/Base/base.svg'));
+  --svg-path-disconnect: var('https://dimonet78.github.io/GamePads-Overlays/Base/disconnect.svg'));
 }
 
 
