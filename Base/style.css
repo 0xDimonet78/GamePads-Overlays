@@ -2,13 +2,13 @@
 @import url(https://fonts.googleapis.com/css?family=Press+Start+2P);
 
 :root {
-  --svg-path: var(--svg-path));
+  --svg-path-base: var(https://dimonet78.github.io/GamePads-Overlays/Base/base.svg));
 }
 
 
 /*BEGIN PS4 Controller Styling*/
 .controller.ds4 {
-  background: var(--svg-path)base.svg);
+  background: var(--svg-path-base);
   height: 598px;
   width: 806px;
   /*    margin-left: -403px;
