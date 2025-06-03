@@ -3,6 +3,7 @@
 
 :root {
   --svg-path-base: var(https://dimonet78.github.io/GamePads-Overlays/Base/base.svg));
+  --svg-path-disconnect: var(https://dimonet78.github.io/GamePads-Overlays/Base/disconnect.svg));
 }
 
 
@@ -16,7 +17,7 @@
 }
 
 .ds4.disconnected {
-  background: var(--svg-path)base.svg);
+  background: var(--svg-path-disconnect);
 }
 
 .ds4.disconnected div {
