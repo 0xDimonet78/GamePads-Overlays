@@ -1,0 +1,21 @@
+{
+  "Capitalization": 2,
+  "FollowShiftForCapsInsensitive": false,
+  "FollowShiftForCapsSensitive": false,
+  "LoadedCategory": "0xDimonet78",
+  "LoadedGlobalStyle": false,
+  "LoadedKeyboard": "Base",
+  "LoadedStyle": "DimonetBase",
+  "MouseFromCenter": false,
+  "MouseSensitivity": 100,
+  "PressHold": 0,
+  "ScrollHold": 100,
+  "TrapKeyboard": false,
+  "TrapMouse": false,
+  "TrapToggleKeyCode": 145,
+  "UpdateInterval": 33,
+  "UpdateTextPosition": true,
+  "WindowTitle": "",
+  "X": 2180,
+  "Y": 84
+}
