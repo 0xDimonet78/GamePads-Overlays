@@ -1346,6 +1346,38 @@
       },
       "ChangeOnCaps": true,
       "ShiftText": "F1"
+    },
+    {
+      "__type": "KeyboardKey",
+      "Id": 43,
+      "Boundaries": [
+        {
+          "X": 89,
+          "Y": 1
+        },
+        {
+          "X": 132,
+          "Y": 1
+        },
+        {
+          "X": 132,
+          "Y": 44
+        },
+        {
+          "X": 89,
+          "Y": 44
+        }
+      ],
+      "KeyCodes": [
+        113
+      ],
+      "Text": "F2",
+      "TextPosition": {
+        "X": 111,
+        "Y": 20
+      },
+      "ChangeOnCaps": true,
+      "ShiftText": "F2"
     }
   ],
   "Height": 500,
