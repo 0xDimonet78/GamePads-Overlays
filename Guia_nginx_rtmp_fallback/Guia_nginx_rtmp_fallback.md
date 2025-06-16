@@ -1,5 +1,3 @@
-Perfecto. Aquí tienes una **guía mejorada y detallada** de instalación y configuración de NGINX con módulo RTMP en Windows, con:
-
 * Carpeta base `C:/nginx/`
 * Permisos solo para IPs de la red `192.168.1.X`
 * Archivos y scripts comentados línea por línea
