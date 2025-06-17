@@ -58,38 +58,68 @@ events {
 
 rtmp {
     server {
-        listen 1935;             # Puerto RTMP estándar
-        chunk_size 4096;         # Tamaño recomendado de fragmento
+        listen 1935;
+        chunk_size 4096;
 
-        # APP PARA SEÑAL EN VIVO DESDE PC PERSONAL
-        application directo {
-            live on;             # Activar live streaming
-            record off;          # No grabar transmisiones
-            allow publish 192.168.1.0/24;  # Solo IPs internas pueden emitir
-            deny publish all;    # Denegar a todos los demás
+        # OBS que emite a todas las plataformas (multi-salida)
+        application obs_multi {
+            live on;                          # Habilita streaming en vivo
+            record off;                       # No grabar stream
+            allow publish 192.168.1.0/24;     # Solo IPs de LAN pueden publicar
+            allow publish 127.0.0.1;          # También localhost
+            deny publish all;                 # Bloquea el resto
+
+            # RTMP push a cada plataforma (coloca tus claves)
+            push rtmp://live.twitch.tv/app/TU_CLAVE_TWITCH;
+            push rtmp://rtmp.kick.com/app/TU_CLAVE_KICK;
+            push rtmp://a.rtmp.youtube.com/live2/TU_CLAVE_YOUTUBE;
         }
 
-        # APP PARA EMISIÓN 24/7 (desde servidor)
-        application loop247 {
+        # OBS para Twitch únicamente
+        application obs_twitch {
             live on;
             record off;
-            allow publish 127.0.0.1;
             allow publish 192.168.1.0/24;
+            allow publish 127.0.0.1;
             deny publish all;
+            push rtmp://live.twitch.tv/app/TU_CLAVE_TWITCH;
         }
 
-        # APP PARA BACKUP SI TODO FALLA
+        # OBS para YouTube únicamente
+        application obs_youtube {
+            live on;
+            record off;
+            allow publish 192.168.1.0/24;
+            allow publish 127.0.0.1;
+            deny publish all;
+            push rtmp://a.rtmp.youtube.com/live2/TU_CLAVE_YOUTUBE;
+        }
+
+        # OBS para Kick únicamente
+        application obs_kick {
+            live on;
+            record off;
+            allow publish 192.168.1.0/24;
+            allow publish 127.0.0.1;
+            deny publish all;
+            push rtmp://rtmp.kick.com/app/TU_CLAVE_KICK;
+        }
+
+        # Aplicación de respaldo (contenido alternativo)
         application fallback {
             live on;
             record off;
         }
 
-        # APP PRINCIPAL QUE REDIRIGE SEGÚN ORDEN (el script publica aquí)
+        # Salida principal (elige el mejor stream desde el script)
         application live {
             live on;
             record off;
-            # Si quieres hacer push a Twitch, descomenta y pon tu clave:
-            # push rtmp://live.twitch.tv/app/TU_CLAVE_DE_STREAM;
+            allow publish 127.0.0.1;
+            allow publish 192.168.1.0/24;
+            deny publish all;
+            # Puedes añadir push a plataformas si quieres retransmitir el resultado final
+            # push rtmp://live.twitch.tv/app/TU_CLAVE_FINAL;
         }
     }
 }
@@ -109,18 +139,15 @@ http {
             index  index.html index.htm;
         }
 
-        # Estado RTMP en formato XML
         location /stat {
-            rtmp_stat all;
+            rtmp_stat all;              # Estado RTMP en XML
             rtmp_stat_stylesheet stat.xsl;
         }
 
-        # Hoja de estilos para el estado
         location /stat.xsl {
             root html;
         }
 
-        # Para servir HLS, si lo necesitas
         location /hls {
             root html;
             add_header Cache-Control no-cache;
@@ -157,13 +184,23 @@ Este script decide qué señal reenviar a Twitch en función de la disponibilida
 Guarda como: `C:\nginx\auto_switch.ps1`
 
 ```ps1
-# auto_switch.ps1 - Versión mejorada y robusta
+# auto_switch.ps1 - Script para seleccionar la mejor señal y reenviarla a la app "live"
+# FUNCIONAMIENTO:
+# - Prioridad: obs_multi > obs_twitch > obs_youtube > obs_kick > fallback
+# - Solo reenvía si hay viewers conectados a la aplicación correspondiente
+# - Mata cualquier ffmpeg anterior antes de lanzar uno nuevo
 
-# Ruta del destino RTMP principal
-$destino = "rtmp://localhost/live"
+# Configura aquí los nombres de las aplicaciones según tu nginx.conf
+$priorityApps = @("obs_multi", "obs_twitch", "obs_youtube", "obs_kick", "fallback")
+$rtmpServer = "localhost"
+$liveApp = "live"
+$rtmpPort = 1935
 
-# Función para matar instancias previas de ffmpeg lanzadas por este script
+# Ruta de destino RTMP principal (aplicación "live")
+$destino = "rtmp://$rtmpServer/$liveApp"
+
 function Stop-FFmpeg {
+    # Elimina cualquier proceso ffmpeg lanzado anteriormente
     Get-Process ffmpeg -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 }
 
@@ -172,42 +209,48 @@ while ($true) {
         # Obtiene y parsea el XML de estado RTMP
         $xml = [xml](Invoke-WebRequest -Uri "http://localhost:8080/stat" -UseBasicParsing).Content
 
-        # Detecta si hay viewers conectados a cada aplicación
-        $directo = $xml.rtmp.server.application | Where-Object { $_.name -eq "directo" }
-        $loop247 = $xml.rtmp.server.application | Where-Object { $_.name -eq "loop247" }
+        $source = $null
 
-        $nDirecto = 0
-        $nLoop = 0
-
-        if ($directo.live.nclients) { $nDirecto = [int]$directo.live.nclients }
-        if ($loop247.live.nclients) { $nLoop = [int]$loop247.live.nclients }
-
-        # Decide la fuente
-        if ($nDirecto -gt 0) {
-            Write-Host "⚡ Emitiendo desde DIRECTO"
-            $src = "rtmp://localhost/directo"
-        } elseif ($nLoop -gt 0) {
-            Write-Host "🔁 Emitiendo desde LOOP247"
-            $src = "rtmp://localhost/loop247"
-        } else {
-            Write-Host "⚠️ Emitiendo desde FALLBACK"
-            $src = "rtmp://localhost/fallback"
+        # Busca la primera app disponible según prioridad y con viewers conectados
+        foreach ($appName in $priorityApps) {
+            $app = $xml.rtmp.server.application | Where-Object { $_.name -eq $appName }
+            if ($app -and $app.live.nclients -and ([int]$app.live.nclients) -gt 0) {
+                Write-Host "⚡ Emitiendo desde $appName"
+                $source = "rtmp://$rtmpServer/$appName"
+                break
+            }
         }
 
-        # Mata procesos ffmpeg previos antes de lanzar uno nuevo
+        # Si ninguna app tiene viewers conectados, usar fallback
+        if (-not $source) {
+            Write-Host "⚠️ Ninguna señal activa. Usando FALLBACK."
+            $source = "rtmp://$rtmpServer/fallback"
+        }
+
+        # Mata cualquier ffmpeg previo antes de lanzar uno nuevo
         Stop-FFmpeg
 
-        # Lanza ffmpeg para la fuente elegida
-        Start-Process ffmpeg -ArgumentList "-re -i $src -c copy -f flv $destino" -NoNewWindow
+        # Puedes personalizar los argumentos de ffmpeg aquí
+        # - Puedes ajustar codecs, calidad, etc. si lo necesitas
+        Start-Process ffmpeg -ArgumentList "-re -i $source -c copy -f flv $destino" -NoNewWindow
 
     } catch {
         Write-Host "Error al obtener o analizar el estado RTMP: $_"
-        # Mata ffmpeg por seguridad si hubo error
         Stop-FFmpeg
     }
 
+    # Intervalo de revisión (en segundos)
     Start-Sleep -Seconds 10
 }
+
+<# OPCIONES RÁPIDAS PARA EDITAR
+- Agrega/quita apps en $priorityApps para ajustar la prioridad
+- Cambia $rtmpServer si tu Nginx está en otra máquina
+- Ajusta $liveApp si cambias el nombre de la app de salida
+- Puedes añadir lógica para logs, notificaciones, etc.
+- Si quieres emitir a diferentes plataformas desde "live", añade push en la app "live" del nginx.conf
+- Si quieres forzar a que solo un OBS pueda emitir a cada app, usa claves/contraseñas de publicación o cambia las reglas de allow publish
+#>
 ```
 
 ---
