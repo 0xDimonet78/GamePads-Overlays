@@ -1,22 +1,33 @@
-* Carpeta base `C:/nginx/`
-* Permisos solo para IPs de la red `192.168.1.X`
-* Archivos y scripts comentados línea por línea
-* Autoarranque como servicio para NGINX y `auto_switch.bat`
-* Enlaces a todas las herramientas necesarias
+
+```markdown
+# ✅ GUÍA COMPLETA: NGINX RTMP en Windows – Auto-Switch, IPs seguras y Servicio
 
 ---
 
-# ✅ GUÍA COMPLETA: NGINX RTMP en Windows – Auto-Switch, IPs seguras y Servicio
+## 📑 ÍNDICE
+
+1. [Descargas necesarias](#-1-descargas-necesarias)
+2. [Estructura de carpetas](#-2-estructura-de-carpetas)
+3. [nginx.conf comentado línea a línea](#-3-nginxconf-comentado-línea-a-línea)
+4. [Script auto_switch.ps1 detallado](#-4-script-auto_switchps1-detallado)
+5. [Autoarranque como servicio (NSSM)](#-5-autoarranque-como-servicio)
+6. [Notas de seguridad y firewall](#-6-notas-de-seguridad-y-firewall)
+7. [Prueba de emisión](#-7-probar-emisión)
+8. [Desinstalación de servicios (opcional)](#desinstalación-de-servicios-opcional)
+9. [Preguntas frecuentes (FAQ)](#preguntas-frecuentes-faq)
+10. [Licencia y créditos](#licencia-y-créditos)
 
 ---
 
 ## 📦 1. DESCARGAS NECESARIAS
 
-| Software                         | Enlace                                                                                        |
-| -------------------------------- | --------------------------------------------------------------------------------------------- |
-| 🔻 NGINX + RTMP para Windows     | [illuspas/nginx-rtmp-win32](https://github.com/illuspas/nginx-rtmp-win32/releases)            |
-| 🎞 FFmpeg                        | [https://www.gyan.dev/ffmpeg/builds/](https://www.gyan.dev/ffmpeg/builds/) (versión full ZIP) |
-| ⚙ NSSM (para servicios)          | [https://nssm.cc/download](https://nssm.cc/download)                                          |
+| Software                   | Enlace                                                                                        |
+|----------------------------|----------------------------------------------------------------------------------------------|
+| 🔻 NGINX + RTMP para Win   | [illuspas/nginx-rtmp-win32](https://github.com/illuspas/nginx-rtmp-win32/releases)           |
+| 🎞 FFmpeg                  | [https://www.gyan.dev/ffmpeg/builds/](https://www.gyan.dev/ffmpeg/builds/) (descargar versión "full" ZIP) |
+| ⚙ NSSM (para servicios)    | [https://nssm.cc/download](https://nssm.cc/download)                                        |
+
+> **IMPORTANTE:** Nunca compartas tus claves de streaming públicamente. Guárdalas en un lugar seguro. Todas las rutas en Windows deben usar `\` y no `/`.
 
 ---
 
@@ -38,7 +49,7 @@ C:\nginx\
 ├── fallback.mp4          <- Video de emergencia
 ├── ffmpeg\               <- Carpeta con FFmpeg
 ├── nginx.exe             <- Ejecutable principal
-├── nssm.exe              <- Ejecutable nssm
+├── nssm.exe              <- Ejecutable NSSM
 ```
 
 ---
@@ -161,25 +172,22 @@ http {
     }
 }
 ```
+🔧 Asegúrate de reemplazar `TU_CLAVE_TWITCH`, `TU_CLAVE_KICK` y `TU_CLAVE_YOUTUBE` por tus claves reales.
 
-🔧 Asegúrate de reemplazar `YOUR_STREAM_KEY` con tu clave real de Twitch.
-
-🛡 PERMISOS DE EMISIÓN POR IP
-
+🛡 **PERMISOS DE EMISIÓN POR IP:**  
 Dentro del bloque `application` ya se ha usado:
 
 ```nginx
 allow publish 192.168.1.0/24;  # Permite toda la subred local
 deny publish all;              # Deniega el resto
 ```
-
-⚠ Esto **protege que solo PCs de tu red puedan emitir.**
+⚠️ Esto **protege que solo PCs de tu red puedan emitir.**
 
 ---
 
 ## 🤖 4. SCRIPT `auto_switch.ps1` DETALLADO
 
-Este script decide qué señal reenviar a Twitch en función de la disponibilidad.
+Este script decide qué señal reenviar a la app "live" según la prioridad y disponibilidad.
 
 Guarda como: `C:\nginx\auto_switch.ps1`
 
@@ -189,12 +197,15 @@ Guarda como: `C:\nginx\auto_switch.ps1`
 # - Prioridad: obs_multi > obs_twitch > obs_youtube > obs_kick > fallback
 # - Solo reenvía si hay viewers conectados a la aplicación correspondiente
 # - Mata cualquier ffmpeg anterior antes de lanzar uno nuevo
+# - Guarda log de los cambios
 
 # Configura aquí los nombres de las aplicaciones según tu nginx.conf
 $priorityApps = @("obs_multi", "obs_twitch", "obs_youtube", "obs_kick", "fallback")
 $rtmpServer = "localhost"
 $liveApp = "live"
 $rtmpPort = 1935
+$ffmpegPath = "C:\nginx\ffmpeg\bin\ffmpeg.exe" # Ajusta según tu instalación
+$logPath = "C:\nginx\auto_switch.log"
 
 # Ruta de destino RTMP principal (aplicación "live")
 $destino = "rtmp://$rtmpServer/$liveApp"
@@ -202,6 +213,12 @@ $destino = "rtmp://$rtmpServer/$liveApp"
 function Stop-FFmpeg {
     # Elimina cualquier proceso ffmpeg lanzado anteriormente
     Get-Process ffmpeg -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+}
+
+function Write-Log {
+    param([string]$msg)
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    "$timestamp $msg" | Out-File -FilePath $logPath -Append -Encoding UTF8
 }
 
 while ($true) {
@@ -216,6 +233,7 @@ while ($true) {
             $app = $xml.rtmp.server.application | Where-Object { $_.name -eq $appName }
             if ($app -and $app.live.nclients -and ([int]$app.live.nclients) -gt 0) {
                 Write-Host "⚡ Emitiendo desde $appName"
+                Write-Log "Emitir desde $appName"
                 $source = "rtmp://$rtmpServer/$appName"
                 break
             }
@@ -224,6 +242,7 @@ while ($true) {
         # Si ninguna app tiene viewers conectados, usar fallback
         if (-not $source) {
             Write-Host "⚠️ Ninguna señal activa. Usando FALLBACK."
+            Write-Log "FALLBACK activado"
             $source = "rtmp://$rtmpServer/fallback"
         }
 
@@ -231,11 +250,11 @@ while ($true) {
         Stop-FFmpeg
 
         # Puedes personalizar los argumentos de ffmpeg aquí
-        # - Puedes ajustar codecs, calidad, etc. si lo necesitas
-        Start-Process ffmpeg -ArgumentList "-re -i $source -c copy -f flv $destino" -NoNewWindow
+        Start-Process -FilePath $ffmpegPath -ArgumentList "-re -i $source -c copy -f flv $destino" -NoNewWindow
 
     } catch {
         Write-Host "Error al obtener o analizar el estado RTMP: $_"
+        Write-Log "Error: $_"
         Stop-FFmpeg
     }
 
@@ -253,51 +272,91 @@ while ($true) {
 #>
 ```
 
+> **TIP:** Si ffmpeg no está en tu PATH, usa la ruta absoluta en `$ffmpegPath`.
+
 ---
 
 ## ⚙️ 5. AUTOARRANQUE COMO SERVICIO
 
-### ✅ Paso 1: Instalar NGINX como servicio con NSSM
+### Paso 1: Instalar NGINX como servicio con NSSM
 
-2. Abre CMD como **Administrador** en la carpeta `C:\nginx\`.
-3. Ejecuta:
-
-```cmd
-nssm install nginx
-```
-
-4. Configura:
-
-* **Path:** `C:\nginx\nginx.exe`
-* **Startup directory:** `C:\nginx\`
+1. Abre CMD como **Administrador** en la carpeta `C:\nginx\`.
+2. Ejecuta:
+   ```
+   nssm install nginx
+   ```
+3. En la ventana de configuración de NSSM:
+   - **Path:** `C:\nginx\nginx.exe`
+   - **Startup directory:** `C:\nginx\`
 
 📌 Aparecerá como "nginx" en los servicios de Windows.
 
-### ✅ Paso 2: Instalar `auto_switch.ps1` como servicio
+### Paso 2: Instalar `auto_switch.ps1` como servicio PowerShell
 
-✅ Autoarranque como servicio (versión PowerShell)
-
-2. Abre CMD como **Administrador** en la carpeta `C:\nginx\`.
+1. Abre CMD como **Administrador** en la carpeta `C:\nginx\`.
 2. Ejecuta:
+   ```
+   nssm install auto_switch_PS
+   ```
+3. En la ventana de configuración de NSSM:
+   - **Path:** `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
+   - **Arguments:** `-ExecutionPolicy Bypass -File "C:\nginx\auto_switch.ps1"`
+   - **Startup directory:** `C:\nginx\`
 
-```cmd
-nssm install auto_switch_PS
-
-
-Arguments: -ExecutionPolicy Bypass -File "C:\nginx\auto_switch.ps1"
-
-Startup dir: C:\nginx\
-```
 📌 Aparecerá como "auto_switch_PS" en los servicios de Windows.
 
-Ambos arrancarán al iniciar Windows. Si quieres que se reinicien si fallan, marca las opciones en la pestaña "Exit actions".
+> **TIP:** Ambos arrancarán al iniciar Windows. Si quieres que se reinicien si fallan, marca las opciones en la pestaña "Exit actions".
+
+---
+
+## 🔥 6. NOTAS DE SEGURIDAD Y FIREWALL
+
+- Asegúrate de abrir los puertos **1935 (RTMP)** y **8080 (panel web)** en el firewall de Windows.
+- Nunca compartas tus claves de streaming.
+- Monitorea el archivo `logs/error.log` de NGINX para detectar problemas.
 
 ---
 
 ## 🧪 7. PROBAR EMISIÓN
 
-1. Desde el PC personal: OBS emite a `rtmp://192.168.1.X/directo`
-2. Desde el servidor: OBS emite a `rtmp://localhost/loop247`
-3. Si ninguno está emitiendo, NGINX mandará el video `fallback.mp4`
+1. En OBS (en cualquier PC de tu red local), configura como servidor:
+   - Para multistream: `rtmp://192.168.1.X/obs_multi`
+   - Solo Twitch: `rtmp://192.168.1.X/obs_twitch`
+   - Solo YouTube: `rtmp://192.168.1.X/obs_youtube`
+   - Solo Kick: `rtmp://192.168.1.X/obs_kick`
+2. Desde el propio servidor puedes probar con: `rtmp://localhost/obs_multi`
+3. Si ninguno está emitiendo, NGINX mandará el video `fallback.mp4`.
 
 ---
+
+## 🧹 Desinstalación de servicios (opcional)
+
+Para eliminar los servicios creados por NSSM:
+
+1. Abre CMD como Administrador en `C:\nginx\`.
+2. Ejecuta:
+   ```
+   nssm remove nginx confirm
+   nssm remove auto_switch_PS confirm
+   ```
+
+---
+
+## ❓ Preguntas frecuentes (FAQ)
+
+- **OBS no conecta:** ¿Abriste el puerto 1935 en el firewall? ¿La IP es correcta?
+- **No cambia el stream:** Revisa el log `auto_switch.log` y el panel `http://localhost:8080/stat`.
+- **¿Puedo emitir a más plataformas?** Sí, añade líneas `push` en la app `live` de `nginx.conf`.
+- **¿Cómo cambio la prioridad?** Edita el array `$priorityApps` en el PowerShell.
+
+---
+
+## 📜 Licencia y créditos
+
+- Basado en herramientas públicas y documentación oficial.
+- Puedes modificar y compartir esta guía, se agradecen mejoras vía pull request.
+- Inspirado en tutoriales de la comunidad NGINX y proyectos de streaming open source.
+
+---
+
+```
