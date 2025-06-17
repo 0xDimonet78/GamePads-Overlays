@@ -1,35 +1,32 @@
-﻿# auto_switch.ps1 - Script para seleccionar la mejor señal y reenviarla a la app "live"
-# FUNCIONAMIENTO:
-# - Prioridad: obs_multi > obs_twitch > obs_youtube > obs_kick > fallback
-# - Solo reenvía si hay viewers conectados a la aplicación correspondiente
-# - Mata cualquier ffmpeg anterior antes de lanzar uno nuevo
+# auto_switch.ps1 - Script para seleccionar la mejor señal y reenviarla a la app "live" en Nginx RTMP
+# Prioridad: obs_multi > obs_twitch > obs_youtube > obs_kick > fallback
 
-# Configura aquí los nombres de las aplicaciones según tu nginx.conf
+# Configuración
 $priorityApps = @("obs_multi", "obs_twitch", "obs_youtube", "obs_kick", "fallback")
 $rtmpServer = "localhost"
 $liveApp = "live"
 $rtmpPort = 1935
-
-# Ruta de destino RTMP principal (aplicación "live")
 $destino = "rtmp://$rtmpServer/$liveApp"
+$ffmpegProcessName = "ffmpeg"
 
 function Stop-FFmpeg {
-    # Elimina cualquier proceso ffmpeg lanzado anteriormente
-    Get-Process ffmpeg -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    # Elimina solo los procesos ffmpeg lanzados por este script (opcional: puedes afinar con argumentos únicos)
+    Get-Process $ffmpegProcessName -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 }
+
+$lastSource = $null
 
 while ($true) {
     try {
         # Obtiene y parsea el XML de estado RTMP
         $xml = [xml](Invoke-WebRequest -Uri "http://localhost:8080/stat" -UseBasicParsing).Content
-
         $source = $null
 
         # Busca la primera app disponible según prioridad y con viewers conectados
         foreach ($appName in $priorityApps) {
             $app = $xml.rtmp.server.application | Where-Object { $_.name -eq $appName }
             if ($app -and $app.live.nclients -and ([int]$app.live.nclients) -gt 0) {
-                Write-Host "⚡ Emitiendo desde $appName"
+                Write-Host "⚡ Emitiendo desde $appName ($([int]$app.live.nclients) viewers)"
                 $source = "rtmp://$rtmpServer/$appName"
                 break
             }
@@ -41,15 +38,17 @@ while ($true) {
             $source = "rtmp://$rtmpServer/fallback"
         }
 
-        # Mata cualquier ffmpeg previo antes de lanzar uno nuevo
-        Stop-FFmpeg
-
-        # Puedes personalizar los argumentos de ffmpeg aquí
-        # - Puedes ajustar codecs, calidad, etc. si lo necesitas
-        Start-Process ffmpeg -ArgumentList "-re -i $source -c copy -f flv $destino" -NoNewWindow
-
+        if ($source -ne $lastSource) {
+            Write-Host "🔄 Cambiando señal a $source"
+            Stop-FFmpeg
+            # Puedes personalizar los argumentos de ffmpeg aquí
+            Start-Process ffmpeg -ArgumentList "-re -i $source -c copy -f flv $destino" -NoNewWindow
+            $lastSource = $source
+        } else {
+            Write-Host "✅ La señal sigue siendo $source, no se reinicia ffmpeg."
+        }
     } catch {
-        Write-Host "Error al obtener o analizar el estado RTMP: $_"
+        Write-Host "❌ Error al obtener o analizar el estado RTMP: $_"
         Stop-FFmpeg
     }
 
