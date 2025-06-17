@@ -17,7 +17,6 @@
 | 🔻 NGINX + RTMP para Windows     | [illuspas/nginx-rtmp-win32](https://github.com/illuspas/nginx-rtmp-win32/releases)            |
 | 🎞 FFmpeg                        | [https://www.gyan.dev/ffmpeg/builds/](https://www.gyan.dev/ffmpeg/builds/) (versión full ZIP) |
 | ⚙ NSSM (para servicios)          | [https://nssm.cc/download](https://nssm.cc/download)                                          |
-| 📁 ZIP preconfigurado (opcional) | *(te lo puedo generar si quieres)*                                                            |
 
 ---
 
@@ -39,6 +38,7 @@ C:\nginx\
 ├── fallback.mp4          <- Video de emergencia
 ├── ffmpeg\               <- Carpeta con FFmpeg
 ├── nginx.exe             <- Ejecutable principal
+├── nssm.exe              <- Ejecutable nssm
 ```
 
 ---
@@ -117,6 +117,19 @@ http {
 }
 ```
 
+🔧 Asegúrate de reemplazar `YOUR_STREAM_KEY` con tu clave real de Twitch.
+
+🛡 PERMISOS DE EMISIÓN POR IP
+
+Dentro del bloque `application` ya se ha usado:
+
+```nginx
+allow publish 192.168.1.0/24;  # Permite toda la subred local
+deny publish all;              # Deniega el resto
+```
+
+⚠ Esto **protege que solo PCs de tu red puedan emitir.**
+
 ---
 
 ## 🤖 4. SCRIPT `auto_switch.ps1` DETALLADO
@@ -151,29 +164,13 @@ while ($true) {
 
 ```
 
-🔧 Asegúrate de reemplazar `YOUR_STREAM_KEY` con tu clave real de Twitch.
-
 ---
 
-## 🛡 5. PERMISOS DE EMISIÓN POR IP
-
-Dentro del bloque `application` ya se ha usado:
-
-```nginx
-allow publish 192.168.1.0/24;  # Permite toda la subred local
-deny publish all;              # Deniega el resto
-```
-
-⚠ Esto **protege que solo PCs de tu red puedan emitir.**
-
----
-
-## ⚙️ 6. AUTOARRANQUE COMO SERVICIO
+## ⚙️ 5. AUTOARRANQUE COMO SERVICIO
 
 ### ✅ Paso 1: Instalar NGINX como servicio con NSSM
 
-1. Extrae `nssm.exe` en una carpeta.
-2. Abre CMD como **Administrador**.
+2. Abre CMD como **Administrador** en la carpeta `C:\nginx\`.
 3. Ejecuta:
 
 ```cmd
@@ -191,7 +188,7 @@ nssm install nginx
 
 ✅ Autoarranque como servicio (versión PowerShell)
 
-1. Abre CMD como **Administrador**.
+2. Abre CMD como **Administrador** en la carpeta `C:\nginx\`.
 2. Ejecuta:
 
 ```cmd
