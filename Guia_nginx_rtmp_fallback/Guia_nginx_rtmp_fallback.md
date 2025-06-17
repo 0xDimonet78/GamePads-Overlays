@@ -1,5 +1,4 @@
 
-```markdown
 # ✅ GUÍA COMPLETA: NGINX RTMP en Windows – Auto-Switch, IPs seguras y Servicio
 
 ---
@@ -358,5 +357,3 @@ Para eliminar los servicios creados por NSSM:
 - Inspirado en tutoriales de la comunidad NGINX y proyectos de streaming open source.
 
 ---
-
-```
