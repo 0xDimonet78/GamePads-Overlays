@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Stream HLS</title>
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        height: 100%;
+        width: 100%;
+      }
+      video {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <video id="video" controls autoplay></video>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+      const video = document.getElementById('video');
+      const hls = new Hls();
+      hls.loadSource('http://192.168.1.12:8080/hls/stream.m3u8');
+      hls.attachMedia(video);
+    </script>
+  </body>
+</html>
