@@ -215,20 +215,3 @@ Ambos arrancarán al iniciar Windows. Si quieres que se reinicien si fallan, mar
 3. Si ninguno está emitiendo, NGINX mandará el video `fallback.mp4`
 
 ---
-
-## 📁 8. ¿QUIERES UN ZIP CON TODO ESTO PREMONTADO?
-
-Te puedo generar un `.zip` listo para descomprimir en `C:\nginx\` con:
-
-* nginx + ffmpeg
-* `nginx.conf` ya escrito
-* `auto_switch.bat`
-* carpeta `ffmpeg\`
-* ejemplo `fallback.mp4`
-* todo configurado
-
-Solo dime si lo quieres y te lo preparo.
-
----
-
-¿Te gustaría también una interfaz web para cambiar manualmente la señal o pausar el script?
