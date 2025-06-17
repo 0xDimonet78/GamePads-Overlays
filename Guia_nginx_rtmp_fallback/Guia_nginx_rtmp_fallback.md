@@ -48,15 +48,14 @@ C:\nginx\
 Guarda esto en `C:\nginx\conf\nginx.conf`:
 
 ```nginx
-# Número de procesos worker (1 es suficiente para RTMP)
-worker_processes 1;
+worker_processes  1;
+
+error_log  logs/error.log info;
 
 events {
-    # Número máximo de conexiones por proceso
-    worker_connections 1024;
+    worker_connections  1024;
 }
 
-# BLOQUE RTMP
 rtmp {
     server {
         listen 1935;             # Puerto RTMP estándar
@@ -74,6 +73,7 @@ rtmp {
         application loop247 {
             live on;
             record off;
+            allow publish 127.0.0.1;
             allow publish 192.168.1.0/24;
             deny publish all;
         }
@@ -84,34 +84,52 @@ rtmp {
             record off;
         }
 
-        # APP PRINCIPAL QUE REDIRIGE SEGÚN ORDEN
+        # APP PRINCIPAL QUE REDIRIGE SEGÚN ORDEN (el script publica aquí)
         application live {
-	    live on;
-	    record off;
-	    push rtmp://live.twitch.tv/app/YOUR_LIVE_KEY;  # Cambia por tu clave real
+            live on;
+            record off;
+            # Si quieres hacer push a Twitch, descomenta y pon tu clave:
+            # push rtmp://live.twitch.tv/app/TU_CLAVE_DE_STREAM;
         }
     }
 }
 
-# BLOQUE HTTP PARA ESTADÍSTICAS Y CONTROL
 http {
-    include mime.types;
-    default_type application/octet-stream;
-
-    sendfile on;
-    keepalive_timeout 65;
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
 
     server {
-        listen 8080;            # Puerto para panel web
-        server_name localhost;
+        listen      8080;
+        server_name  localhost;
 
+        location / {
+            root html;
+            index  index.html index.htm;
+        }
+
+        # Estado RTMP en formato XML
         location /stat {
-            rtmp_stat all;              # Mostrar estadísticas RTMP
+            rtmp_stat all;
             rtmp_stat_stylesheet stat.xsl;
         }
 
+        # Hoja de estilos para el estado
         location /stat.xsl {
-            root html;                  # Estilos de la estadística
+            root html;
+        }
+
+        # Para servir HLS, si lo necesitas
+        location /hls {
+            root html;
+            add_header Cache-Control no-cache;
+            add_header Access-Control-Allow-Origin *;
+
+            types {
+                application/vnd.apple.mpegurl m3u8;
+                video/mp2t ts;
+            }
         }
     }
 }
@@ -139,29 +157,57 @@ Este script decide qué señal reenviar a Twitch en función de la disponibilida
 Guarda como: `C:\nginx\auto_switch.ps1`
 
 ```ps1
-# auto_switch.ps1 (corregido y comentado)
+# auto_switch.ps1 - Versión mejorada y robusta
+
+# Ruta del destino RTMP principal
+$destino = "rtmp://localhost/live"
+
+# Función para matar instancias previas de ffmpeg lanzadas por este script
+function Stop-FFmpeg {
+    Get-Process ffmpeg -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+}
+
 while ($true) {
-    $stats = Invoke-WebRequest -Uri "http://localhost:8080/stat" -UseBasicParsing
-    $content = $stats.Content
+    try {
+        # Obtiene y parsea el XML de estado RTMP
+        $xml = [xml](Invoke-WebRequest -Uri "http://localhost:8080/stat" -UseBasicParsing).Content
 
-    # Detectar si hay emisión en directo
-    $hasDirecto = $content -like '*application name="directo"*streams>1*'
-    $hasLoop = $content -like '*application name="loop247"*streams>1*'
+        # Detecta si hay viewers conectados a cada aplicación
+        $directo = $xml.rtmp.server.application | Where-Object { $_.name -eq "directo" }
+        $loop247 = $xml.rtmp.server.application | Where-Object { $_.name -eq "loop247" }
 
-    if ($hasDirecto) {
-        Write-Host "⚡ Emitiendo desde DIRECTO"
-        Start-Process ffmpeg -ArgumentList '-re -i rtmp://localhost/directo -c copy -f flv rtmp://localhost/live' -NoNewWindow -Wait
-    } elseif ($hasLoop) {
-        Write-Host "🔁 Emitiendo desde LOOP247"
-        Start-Process ffmpeg -ArgumentList '-re -i rtmp://localhost/loop247 -c copy -f flv rtmp://localhost/live' -NoNewWindow -Wait
-    } else {
-        Write-Host "⚠️ Emitiendo desde FALLBACK"
-        Start-Process ffmpeg -ArgumentList '-re -i rtmp://localhost/fallback -c copy -f flv rtmp://localhost/live' -NoNewWindow -Wait
+        $nDirecto = 0
+        $nLoop = 0
+
+        if ($directo.live.nclients) { $nDirecto = [int]$directo.live.nclients }
+        if ($loop247.live.nclients) { $nLoop = [int]$loop247.live.nclients }
+
+        # Decide la fuente
+        if ($nDirecto -gt 0) {
+            Write-Host "⚡ Emitiendo desde DIRECTO"
+            $src = "rtmp://localhost/directo"
+        } elseif ($nLoop -gt 0) {
+            Write-Host "🔁 Emitiendo desde LOOP247"
+            $src = "rtmp://localhost/loop247"
+        } else {
+            Write-Host "⚠️ Emitiendo desde FALLBACK"
+            $src = "rtmp://localhost/fallback"
+        }
+
+        # Mata procesos ffmpeg previos antes de lanzar uno nuevo
+        Stop-FFmpeg
+
+        # Lanza ffmpeg para la fuente elegida
+        Start-Process ffmpeg -ArgumentList "-re -i $src -c copy -f flv $destino" -NoNewWindow
+
+    } catch {
+        Write-Host "Error al obtener o analizar el estado RTMP: $_"
+        # Mata ffmpeg por seguridad si hubo error
+        Stop-FFmpeg
     }
 
     Start-Sleep -Seconds 10
 }
-
 ```
 
 ---
