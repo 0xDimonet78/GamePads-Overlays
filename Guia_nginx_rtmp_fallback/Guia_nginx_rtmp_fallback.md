@@ -35,7 +35,7 @@ Estructura:
 C:\nginx\
 ├── conf\
 │   └── nginx.conf        <- Configuración principal
-├── auto_switch.bat       <- Script de cambio automático
+├── auto_switch.ps1       <- Script de cambio automático
 ├── fallback.mp4          <- Video de emergencia
 ├── ffmpeg\               <- Carpeta con FFmpeg
 ├── nginx.exe             <- Ejecutable principal
@@ -86,8 +86,9 @@ rtmp {
 
         # APP PRINCIPAL QUE REDIRIGE SEGÚN ORDEN
         application live {
-            live on;
-            record off;
+	    live on;
+	    record off;
+	    push rtmp://live.twitch.tv/app/YOUR_LIVE_KEY;  # Cambia por tu clave real
         }
     }
 }
@@ -112,53 +113,42 @@ http {
         location /stat.xsl {
             root html;                  # Estilos de la estadística
         }
-
-        location /control {
-            rtmp_control all;           # Permitir control RTMP (opcional)
-        }
     }
 }
 ```
 
 ---
 
-## 🤖 4. SCRIPT `auto_switch.bat` DETALLADO
+## 🤖 4. SCRIPT `auto_switch.ps1` DETALLADO
 
 Este script decide qué señal reenviar a Twitch en función de la disponibilidad.
 
-Guarda como: `C:\nginx\auto_switch.bat`
+Guarda como: `C:\nginx\auto_switch.ps1`
 
-```bat
-@echo off
-REM ===============================
-REM AUTO_SWITCH.BAT
-REM Cambia señal automáticamente
-REM ===============================
+```ps1
+# auto_switch.ps1 (corregido y comentado)
+while ($true) {
+    $stats = Invoke-WebRequest -Uri "http://localhost:8080/stat" -UseBasicParsing
+    $content = $stats.Content
 
-:loop
-REM Comprobamos si hay señal en "directo"
-curl -s http://localhost:8080/stat | findstr /C:"application name=\"directo\"" >nul
-if %errorlevel%==0 (
-    echo 📡 Señal activa en DIRECTO
-    start "" /B ffmpeg\bin\ffmpeg.exe -re -i rtmp://localhost/directo -c copy -f flv rtmp://live.twitch.tv/app/YOUR_STREAM_KEY
-    timeout /t 60
-    goto loop
-)
+    # Detectar si hay emisión en directo
+    $hasDirecto = $content -like '*application name="directo"*streams>1*'
+    $hasLoop = $content -like '*application name="loop247"*streams>1*'
 
-REM Si no hay directo, comprobamos loop247
-curl -s http://localhost:8080/stat | findstr /C:"application name=\"loop247\"" >nul
-if %errorlevel%==0 (
-    echo 🔁 Señal activa en LOOP247
-    start "" /B ffmpeg\bin\ffmpeg.exe -re -i rtmp://localhost/loop247 -c copy -f flv rtmp://live.twitch.tv/app/YOUR_STREAM_KEY
-    timeout /t 60
-    goto loop
-)
+    if ($hasDirecto) {
+        Write-Host "⚡ Emitiendo desde DIRECTO"
+        Start-Process ffmpeg -ArgumentList '-re -i rtmp://localhost/directo -c copy -f flv rtmp://localhost/live' -NoNewWindow -Wait
+    } elseif ($hasLoop) {
+        Write-Host "🔁 Emitiendo desde LOOP247"
+        Start-Process ffmpeg -ArgumentList '-re -i rtmp://localhost/loop247 -c copy -f flv rtmp://localhost/live' -NoNewWindow -Wait
+    } else {
+        Write-Host "⚠️ Emitiendo desde FALLBACK"
+        Start-Process ffmpeg -ArgumentList '-re -i rtmp://localhost/fallback -c copy -f flv rtmp://localhost/live' -NoNewWindow -Wait
+    }
 
-REM Si todo falla, usamos fallback.mp4
-echo ⚠️ No hay señal. Mostrando fallback.
-start "" /B ffmpeg\bin\ffmpeg.exe -re -stream_loop -1 -i fallback.mp4 -c copy -f flv rtmp://live.twitch.tv/app/YOUR_STREAM_KEY
-timeout /t 60
-goto loop
+    Start-Sleep -Seconds 10
+}
+
 ```
 
 🔧 Asegúrate de reemplazar `YOUR_STREAM_KEY` con tu clave real de Twitch.
@@ -202,10 +192,10 @@ nssm install nginx
 Repite el proceso:
 
 ```cmd
-nssm install auto_switch
+nssm install auto_switch_PS
 ```
 
-* **Path:** `C:\nginx\auto_switch.bat`
+* **Path:** `C:\nginx\auto_switch.ps1`
 
 Ambos arrancarán al iniciar Windows. Si quieres que se reinicien si fallan, marca las opciones en la pestaña "Exit actions".
 
