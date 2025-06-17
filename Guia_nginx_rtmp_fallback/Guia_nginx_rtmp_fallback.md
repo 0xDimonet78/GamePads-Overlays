@@ -189,13 +189,19 @@ nssm install nginx
 
 ### ✅ Paso 2: Instalar `auto_switch.bat` como servicio
 
-Repite el proceso:
+✅ Autoarranque como servicio (versión PowerShell)
+Si lo vas a usar como servicio:
+1. Abre CMD como **Administrador**.
+2. Ejecuta:
 
 ```cmd
-nssm install auto_switch_PS
-```
+nssm install auto_switch
 
-* **Path:** `C:\nginx\auto_switch.ps1`
+
+Arguments: -ExecutionPolicy Bypass -File "C:\nginx\auto_switch.ps1"
+
+Startup dir: C:\nginx\
+```
 
 Ambos arrancarán al iniciar Windows. Si quieres que se reinicien si fallan, marca las opciones en la pestaña "Exit actions".
 
