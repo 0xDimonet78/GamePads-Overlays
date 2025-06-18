@@ -1,4 +1,4 @@
-# 🎮 GamePads-Overlays
+# 🎮 streaming-hub
 
 ¡Bienvenido/a! Este proyecto es tu kit esencial para mostrar mandos de videojuegos en overlays de streaming, videos o páginas web. Aquí encontrarás recursos gráficos listos para usar y guías técnicas para potenciar tus transmisiones o proyectos interactivos.
 
