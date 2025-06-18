@@ -26,19 +26,26 @@
 <canvas id="fire"></canvas>
 <script>
 // --- CONFIGURACIÓN PRINCIPAL ---
-const FIRE_WIDTH = 400;    // resolucion interna, puedes subir si quieres más detalle
-const FIRE_HEIGHT = 80;    // altura del fuego
-const SCALE = 2.5;         // escala del fuego (ancho en pantalla = FIRE_WIDTH * SCALE)
+const FIRE_WIDTH = 1920;    // resolución interna
+const FIRE_HEIGHT = 50;    // altura del fuego
+const SCALE = 13;         // escala del fuego
 const FIRE_COLORS = [
   [0,0,0,0], [20,10,0,40], [60,20,0,80], [120,30,0,130], [255,80,0,180], [255,180,30,220], [255,255,180,255]
 ];
 const SPEED = 2;           // velocidad de propagación
 
-// --- INICIALIZACIÓN CANVAS ---
+// --- CANVAS PRINCIPAL ---
 const canvas = document.getElementById('fire');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
+// --- CANVAS AUXILIAR PARA EL FUEGO ---
+const fireCanvas = document.createElement('canvas');
+fireCanvas.width = FIRE_WIDTH;
+fireCanvas.height = FIRE_HEIGHT;
+const fireCtx = fireCanvas.getContext('2d');
+
 let firePixelsArray = [];
 let fireWidth = FIRE_WIDTH;
 let fireHeight = FIRE_HEIGHT;
@@ -76,10 +83,10 @@ function updateFire() {
   }
 }
 
-// --- DIBUJAR FUEGO EN EL CANVAS ---
+// --- DIBUJAR FUEGO EN EL CANVAS AUXILIAR Y ESCALAR SOLO ABAJO ---
 function renderFire() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const image = ctx.createImageData(fireWidth, fireHeight);
+  // Genera la imagen en el canvas auxiliar
+  const image = fireCtx.createImageData(fireWidth, fireHeight);
   for (let i = 0; i < fireWidth * fireHeight; i++) {
     const intensity = firePixelsArray[i];
     const color = FIRE_COLORS[intensity] || [0,0,0,0];
@@ -88,18 +95,13 @@ function renderFire() {
     image.data[i * 4 + 2] = color[2];
     image.data[i * 4 + 3] = color[3];
   }
-  // Dibuja el fuego SOLO en la parte baja de la pantalla, escalado horizontalmente
-  ctx.putImageData(
-    image,
-    (canvas.width - fireWidth * SCALE) / 2,
-    canvas.height - fireHeight * SCALE
-  );
+  fireCtx.putImageData(image, 0, 0);
+
+  // Limpia el canvas principal y dibuja solo abajo, escalando
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(
-    canvas,
-    (canvas.width - fireWidth * SCALE) / 2,
-    canvas.height - fireHeight * SCALE,
-    fireWidth * SCALE,
-    fireHeight * SCALE,
+    fireCanvas,
+    0, 0, fireWidth, fireHeight,
     (canvas.width - fireWidth * SCALE) / 2,
     canvas.height - fireHeight * SCALE,
     fireWidth * SCALE,

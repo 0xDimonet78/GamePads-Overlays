@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Borde Animado OBS</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+<canvas id="border"></canvas>
+<script>
+  // ==========================
+  // CONFIGURACIÓN DEL BORDE
+  // ==========================
+  const BORDER_COLOR = "#00ffea"; // Cambia este valor por el color que quieras (hex, rgb, etc)
+  const BORDER_WIDTH = 6;         // Grosor de la línea en píxeles
+  const SPEED = 400;              // Milisegundos para dar la vuelta completa (menor = más rápido)
+  // ==========================
+
+  const canvas = document.getElementById('border');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function animateBorder() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const now = Date.now();
+    const perimeter = 2 * (canvas.width + canvas.height);
+    const progress = (now % SPEED) / SPEED; // 0..1
+    const length = perimeter * progress;
+
+    ctx.strokeStyle = BORDER_COLOR;
+    ctx.lineWidth = BORDER_WIDTH;
+    ctx.lineCap = "round";
+
+    ctx.beginPath();
+    let l = length;
+
+    // Lado superior
+    if (l <= canvas.width) {
+      ctx.moveTo(0, 0);
+      ctx.lineTo(l, 0);
+    } else {
+      ctx.moveTo(0, 0);
+      ctx.lineTo(canvas.width, 0);
+      l -= canvas.width;
+      // Lado derecho
+      if (l <= canvas.height) {
+        ctx.lineTo(canvas.width, l);
+      } else {
+        ctx.lineTo(canvas.width, canvas.height);
+        l -= canvas.height;
+        // Lado inferior
+        if (l <= canvas.width) {
+          ctx.lineTo(canvas.width - l, canvas.height);
+        } else {
+          ctx.lineTo(0, canvas.height);
+          l -= canvas.width;
+          // Lado izquierdo
+          ctx.lineTo(0, canvas.height - l);
+        }
+      }
+    }
+    ctx.stroke();
+
+    requestAnimationFrame(animateBorder);
+  }
+  animateBorder();
+</script>
+</body>
+</html>

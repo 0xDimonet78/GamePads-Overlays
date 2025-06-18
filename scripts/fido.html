@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Fido Dido Blanco Fondo Transparente</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+<canvas id="fido"></canvas>
+<script>
+// ==========================
+// CONFIGURACIÓN DE COLORES
+// ==========================
+const COLOR_CUERPO = "#fff";     // Tronco y extremidades (blanco)
+const COLOR_CABEZA = "#fff";     // Cabeza (blanco)
+const COLOR_PELO   = "#fff";     // Pelo (blanco)
+const COLOR_CARA   = "#fff";     // Ojos y sonrisa (blanco)
+const GROSOR_LINEA = 3.6;        // Grosor de las líneas
+
+const SCALE = 1.4;                  // Tamaño del personaje
+const SPEED = 2.3;                  // Velocidad píxeles/frame
+// ==========================
+
+const canvas = document.getElementById('fido');
+const ctx = canvas.getContext('2d');
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// Dibuja Fido Dido con animación y colores configurables
+function drawFido(x, y, scale, t, dir = 1) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale * dir, scale);
+
+  // Parámetros de animación
+  const walkSpeed = 2.5;
+  const legSwing = Math.sin(t * walkSpeed) * 18;
+  const altLegSwing = Math.sin(t * walkSpeed + Math.PI) * 18;
+  const armSwing = Math.sin(t * walkSpeed + Math.PI) * 22;
+  const altArmSwing = Math.sin(t * walkSpeed) * 22;
+  const bodyBob = Math.abs(Math.sin(t * walkSpeed)) * 6;
+
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  // Cabeza (ovalada)
+  ctx.beginPath();
+  ctx.ellipse(0, -bodyBob, 18, 25, 0, 0, Math.PI * 2);
+  ctx.strokeStyle = COLOR_CABEZA;
+  ctx.lineWidth = GROSOR_LINEA + 1;
+  ctx.stroke();
+
+  // Pelo
+  for (let i = -3; i <= 3; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * 4, -25 - bodyBob);
+    ctx.lineTo(i * 4, -35 - Math.abs(i)*2 - bodyBob);
+    ctx.strokeStyle = COLOR_PELO;
+    ctx.lineWidth = GROSOR_LINEA - 0.5;
+    ctx.stroke();
+  }
+
+  // Cara (ojos y sonrisa)
+  ctx.beginPath();
+  ctx.arc(-6, -7 - bodyBob, 2, 0, Math.PI * 2); // ojo izq
+  ctx.arc(6, -7 - bodyBob, 2, 0, Math.PI * 2); // ojo der
+  ctx.moveTo(-5, 8 - bodyBob);
+  ctx.quadraticCurveTo(0, 15 - bodyBob, 5, 8 - bodyBob); // sonrisa
+  ctx.strokeStyle = COLOR_CARA;
+  ctx.lineWidth = GROSOR_LINEA - 1.2;
+  ctx.stroke();
+
+  // Cuerpo (línea vertical)
+  ctx.beginPath();
+  ctx.moveTo(0, 25 - bodyBob);
+  ctx.lineTo(0, 70 - bodyBob);
+  ctx.strokeStyle = COLOR_CUERPO;
+  ctx.lineWidth = GROSOR_LINEA;
+  ctx.stroke();
+
+  // Brazos (animados)
+  ctx.beginPath();
+  ctx.moveTo(0, 40 - bodyBob);
+  ctx.lineTo(-25 + armSwing, 50 - bodyBob + armSwing * 0.08);
+  ctx.moveTo(0, 40 - bodyBob);
+  ctx.lineTo(25 + altArmSwing, 50 - bodyBob + altArmSwing * 0.08);
+  ctx.strokeStyle = COLOR_CUERPO;
+  ctx.lineWidth = GROSOR_LINEA;
+  ctx.stroke();
+
+  // Piernas (animadas)
+  ctx.beginPath();
+  ctx.moveTo(0, 70 - bodyBob);
+  ctx.lineTo(-15 + legSwing, 100 + legSwing * 0.15 - bodyBob);
+  ctx.moveTo(0, 70 - bodyBob);
+  ctx.lineTo(15 + altLegSwing, 100 + altLegSwing * 0.15 - bodyBob);
+  ctx.strokeStyle = COLOR_CUERPO;
+  ctx.lineWidth = GROSOR_LINEA;
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+// Animación Fido Dido cruzando de derecha a izquierda y de vuelta (al revés)
+let direction = -1; // Empieza yendo a la izquierda primero
+let pos = canvas.width + 40;
+let t = 0;
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const y = canvas.height * 0.7;
+  drawFido(pos, y, SCALE, t, direction);
+
+  pos += SPEED * direction;
+  t += 0.03;
+  if (pos < -40) {
+    direction = 1;
+  }
+  if (pos > canvas.width + 40) {
+    direction = -1;
+  }
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>

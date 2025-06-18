@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>VHS Effect OBS Transparente</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+<canvas id="vhs"></canvas>
+<script>
+const canvas = document.getElementById('vhs');
+const ctx = canvas.getContext('2d');
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function randomInt(a, b) {
+  return Math.floor(Math.random() * (b - a + 1)) + a;
+}
+
+function drawVHS() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Simular "desenfoque" y distorsión oscilante
+  const distort = Math.sin(Date.now() / 500) * 5;
+  ctx.save();
+  ctx.translate(distort, 0);
+  ctx.globalAlpha = 0.9;
+  ctx.filter = `blur(${1 + Math.abs(distort) / 2}px)`;
+  ctx.fillStyle = 'rgba(255,255,255,0.018)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
+
+  // Líneas horizontales VHS
+  for(let i = 0; i < canvas.height; i += 3) {
+    let noise = randomInt(-10, 10);
+    ctx.globalAlpha = 0.12 + Math.random() * 0.1;
+    ctx.fillStyle = `rgba(255,255,255,${0.08 + Math.abs(noise)/30})`;
+    ctx.fillRect(noise, i, canvas.width, 1);
+  }
+
+  // Saltos de color tipo glitch
+  for(let j = 0; j < 4; j++) {
+    let y = randomInt(0, canvas.height-6);
+    let width = randomInt(canvas.width*0.2, canvas.width*0.8);
+    let r = 1 + Math.sin(Date.now() / 200 + j) * 2;
+    ctx.globalAlpha = 0.08 + Math.random()*0.05;
+    ctx.fillStyle = `rgba(${200+randomInt(-40,40)},${randomInt(0,20)},${randomInt(0,30)},0.13)`;
+    ctx.fillRect(r, y, width, 3);
+  }
+  ctx.globalAlpha = 1;
+  ctx.filter = 'none';
+
+  requestAnimationFrame(drawVHS);
+}
+drawVHS();
+</script>
+</body>
+</html>

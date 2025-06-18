@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Fuegos Artificiales OBS</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      overflow: hidden;
+    }
+    canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<canvas id="fireworks"></canvas>
+<script>
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+class Particle {
+  constructor(x, y, color, angle, speed, fade, size) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.angle = angle;
+    this.speed = speed;
+    this.life = 1;
+    this.fade = fade;
+    this.size = size;
+    this.gravity = 0.01 + Math.random() * 0.02;
+  }
+  update() {
+    this.x += Math.cos(this.angle) * this.speed;
+    this.y += Math.sin(this.angle) * this.speed + this.gravity;
+    this.speed *= 0.98;
+    this.life -= this.fade;
+  }
+  draw(ctx) {
+    ctx.globalAlpha = Math.max(this.life, 0);
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+}
+
+class Firework {
+  constructor() {
+    const w = canvas.width;
+    const h = canvas.height;
+    this.x = Math.random() * w * 0.8 + w * 0.1;
+    this.y = h * (0.4 + Math.random()*0.2);
+    const colors = [
+      "#ff003c","#ff8a00","#fabe28","#88c100","#00c176",
+      "#00cfff","#0054a6","#773cbb","#ff3cac","#fff"
+    ];
+    this.particles = [];
+    const count = 32 + Math.floor(Math.random() * 18);
+    const baseColor = colors[Math.floor(Math.random() * colors.length)];
+    for (let i = 0; i < count; i++) {
+      let angle = (Math.PI * 2) * (i / count);
+      let spd = 2.5 + Math.random() * 1.9;
+      let fade = 0.013 + Math.random() * 0.008;
+      let size = 1.3 + Math.random() * 1.8;
+      // Variar el color para un efecto más realista
+      let color = baseColor;
+      this.particles.push(new Particle(this.x, this.y, color, angle, spd, fade, size));
+    }
+  }
+  update() {
+    this.particles.forEach(p => p.update());
+    this.particles = this.particles.filter(p => p.life > 0);
+  }
+  draw(ctx) {
+    this.particles.forEach(p => p.draw(ctx));
+  }
+  isAlive() {
+    return this.particles.length > 0;
+  }
+}
+
+let fireworks = [];
+let frames = 0;
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Fondo negro translúcido para arrastre de luz
+  ctx.save();
+  ctx.globalAlpha = 0.17;
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.restore();
+
+  if (frames % 32 === 0 || Math.random() < 0.03) {
+    fireworks.push(new Firework());
+  }
+  fireworks.forEach(fw => { fw.update(); fw.draw(ctx); });
+  fireworks = fireworks.filter(fw => fw.isAlive());
+
+  frames++;
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>
