@@ -1,0 +1,118 @@
+[2025-06-18 10:09:28] System.InvalidOperationException
+[2025-06-18 10:09:28] Message: 'La secuencia no contiene elementos'.
+[2025-06-18 10:09:28] Stack trace:
+[2025-06-18 10:09:28]    en System.Linq.Enumerable.Min(IEnumerable`1 source)
+   en ThoNohT.NohBoard.Keyboard.KeyboardDefinition.GetBoundingBox()
+   en ThoNohT.NohBoard.Legacy.LegacyKbFileParser.Parse(String fileName)
+   en ThoNohT.NohBoard.Forms.LoadKeyboardForm.LoadLegacyButton_Click(Object sender, EventArgs e)
+   en System.Windows.Forms.Control.OnClick(EventArgs e)
+   en System.Windows.Forms.Button.OnClick(EventArgs e)
+   en System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
+   en System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   en System.Windows.Forms.Control.WndProc(Message& m)
+   en System.Windows.Forms.ButtonBase.WndProc(Message& m)
+   en System.Windows.Forms.Button.WndProc(Message& m)
+   en System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   en System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   en System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+
+[2025-06-18 10:09:28] Current settings:
+[2025-06-18 10:09:28] {
+  "Capitalization": 2,
+  "FollowShiftForCapsInsensitive": false,
+  "FollowShiftForCapsSensitive": false,
+  "LoadedCategory": null,
+  "LoadedGlobalStyle": false,
+  "LoadedKeyboard": null,
+  "LoadedStyle": "DimonetBase",
+  "MouseFromCenter": false,
+  "MouseSensitivity": 100,
+  "PressHold": 0,
+  "ScrollHold": 100,
+  "TrapKeyboard": false,
+  "TrapMouse": false,
+  "TrapToggleKeyCode": 145,
+  "UpdateInterval": 33,
+  "UpdateTextPosition": true,
+  "WindowTitle": "",
+  "X": -818,
+  "Y": 288
+}
+
+[2025-06-18 10:09:28] Current style:
+[2025-06-18 10:09:28] {
+  "BackgroundColor": {
+    "Blue": 100,
+    "Green": 0,
+    "Red": 0
+  },
+  "BackgroundImageFileName": null,
+  "DefaultKeyStyle": {
+    "Loose": {
+      "Background": {
+        "Blue": 100,
+        "Green": 100,
+        "Red": 100
+      },
+      "BackgroundImageFileName": null,
+      "Font": {
+        "DownloadUrl": null,
+        "FontFamily": "Courier New",
+        "Size": 10,
+        "Style": 0
+      },
+      "Outline": {
+        "Blue": 0,
+        "Green": 255,
+        "Red": 0
+      },
+      "OutlineWidth": 1,
+      "ShowOutline": false,
+      "Text": {
+        "Blue": 0,
+        "Green": 0,
+        "Red": 0
+      }
+    },
+    "Pressed": {
+      "Background": {
+        "Blue": 255,
+        "Green": 255,
+        "Red": 255
+      },
+      "BackgroundImageFileName": null,
+      "Font": {
+        "DownloadUrl": null,
+        "FontFamily": "Courier New",
+        "Size": 10,
+        "Style": 0
+      },
+      "Outline": {
+        "Blue": 0,
+        "Green": 255,
+        "Red": 0
+      },
+      "OutlineWidth": 1,
+      "ShowOutline": false,
+      "Text": {
+        "Blue": 0,
+        "Green": 0,
+        "Red": 0
+      }
+    }
+  },
+  "DefaultMouseSpeedIndicatorStyle": {
+    "InnerColor": {
+      "Blue": 100,
+      "Green": 100,
+      "Red": 100
+    },
+    "OuterColor": {
+      "Blue": 255,
+      "Green": 255,
+      "Red": 255
+    },
+    "OutlineWidth": 1
+  },
+  "ElementStyles": [ ]
+}

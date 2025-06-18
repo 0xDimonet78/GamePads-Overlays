@@ -7,15 +7,15 @@
   "LoadedKeyboard": "Base",
   "LoadedStyle": "DimonetBase",
   "MouseFromCenter": false,
-  "MouseSensitivity": 100,
+  "MouseSensitivity": 50,
   "PressHold": 0,
-  "ScrollHold": 100,
+  "ScrollHold": 50,
   "TrapKeyboard": false,
   "TrapMouse": false,
   "TrapToggleKeyCode": 145,
   "UpdateInterval": 33,
   "UpdateTextPosition": true,
   "WindowTitle": "",
-  "X": -818,
-  "Y": 288
+  "X": -1042,
+  "Y": 275
 }
