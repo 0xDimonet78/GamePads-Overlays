@@ -1,3 +1,5 @@
+[https://github.com/GamePadViewer](https://github.com/GamePadViewer)
+
 # CSS Personalizado para Gamepad Viewer - PS3
 
 A continuación se muestra el CSS traducido y comentado en español para personalizar la apariencia del mando de PS3 en [Gamepad Viewer](https://gamepadviewer.com/).
@@ -34,43 +36,74 @@ Lo siguiente es una copia del código utilizado para mostrar la skin del control
 en Gamepad Viewer. Puedes desplazarte hacia abajo y leer los comentarios para
 entender cómo funciona el estilo y demás. ¡Feliz personalización!
 
-```css
+[https://gist.github.com/mrmcpowned/31eddbc3f8344ee69799](https://gist.github.com/mrmcpowned/31eddbc3f8344ee69799)
 
-/*INICIO de Estilo del Controlador PS3*/
-/*Esta clase define los atributos base del skin*/
+```css
+/*
+-How to use Custom CSS for the GamePad Viewer-
+https://gamepadviewer.com/
+Enabling a custom CSS is as easy as adding &css=[url to css file]
+to the end of the url like so:
+https://gamepadviewer.com/?p=1&css=https://gist.github.com/anonymous/526491dc02014099cd14/raw/d7bb0477ba984f794497f3f0f82cb33484dc7889/ps3.css
+If you're going to be using custom CSS for the gamepad viewer
+to design your own skin, we're assuming you have some sort of
+basic knowledge on how CSS works. I'd also suggest uploading
+your custom CSS to GitHub's gist as you can easily get the
+direct link for the file by copying the link address on the
+"Raw" button at the top right of the code.
+NOTE: If you're using gist, MAKE SURE TO NAME YOUR CSS FILE!
+It doesn't matter what you call it, so long as it ends in .css
+else the site won't read it and think it's just a plain text.
+Each CSS entry must be preceded by '.custom' since that's the 
+hardcoded class for a custom style. It doesn't make sense to 
+change this as you can only have one custom skin loaded at a time.
+If you're using images, they have to be uploaded to an image host of
+your choice. Personally, I'd go with Imgur since it's simple to upload
+and get the direct URL of the image. None of the images in this example
+will load because they're pointing to a location relative of the css 
+files, since this is normally in the main CSS file of the site.
+The following is a copy of the code used for displaying the PS3 controller
+skin on the Gamepad viewer. You can scroll below and read the comments to
+get an understanding of how the styling works and whatnot. Happy skinning!
+P.S. If you use this tool often and would like to 'buy me a coffee' you can
+do so via my paypal: https://paypal.me/mrmcpowned
+*/
+
+/*BEGIN PS3 Controller Styling*/
+/*This class defines the base attributes of the skin*/
 .controller.custom{
-    /* La imagen de fondo es básicamente la base del skin del controlador.
-    El skin del controlador PS3 se encuentra en http://mrmcpowned.com/gamepad/ps3-assets/base.png
-    y puedes observarla como ejemplo. Los sticks, botones y flechas direccionales están ausentes
-    porque sus elementos apropiados se incorporarán cuando se defina su estilo abajo.
-    Todo el estilo visual del skin se realiza mediante imágenes de fondo y sprites CSS. */ 
+    /* The background image is basically the base for the controller's skin. The 
+    PS3 controller's skin can be found at http://mrmcpowned.com/gamepad/ps3-assets/base.png
+    and you can observe it as an example. The sticks, buttons, and directional arrows are missing
+    because their appropriate elements will be incorperated when their styling is defined below.
+    The entirity of the skin's visual styling is done via background images and CSS sprites. */ 
     background: url(ps3-assets/base.png); 
     height: 558px;
     width: 784px;
 }
-.custom.desconectado { /* Esta clase muestra una imagen cuando el controlador está desconectado */
+.custom.disconnected { /* This class shows an image when the controller is disconnected */
     background: url(ps3-assets/base-disconnect.png);
 }
-/* Esto oculta los botones del controlador cuando está desconectado, dejando solo la imagen de fondo */ 
-.custom.desconectado div {
+/* This hides the controller's button when disconnected so only the background image remains */ 
+.custom.disconnected div {
     display: none;
 }
-.custom .triggers{ /* Los gatillos están dentro de un div, así que esto le da tamaño y posición adecuada */
+.custom .triggers{ /* The triggers are housed inside a div, so this sizes the div properly and positions it */
     width: 586px;
     height: 65px;
     position: absolute;
     left: 99px;
 }
-.custom .trigger{/* Estos son los propios gatillos */
+.custom .trigger{/* These are the actual triggers themselves */
     width:86px;
     height:65px;
     background: url(ps3-assets/triggers.png);
     opacity: 0;
 }
-/* Las clases izquierda y derecha se usan para posicionar los gatillos
-dentro del div contenedor. Como su posición es relativa
-al tamaño del elemento padre, simplemente ajustamos el padre
-para lograr la posición deseada. */
+/* The left and right classes below are used to position the triggers
+within the div they're contained in. Since their positions is realtive
+to the size of the parent element, we simply resize the parent element 
+above to achieve the desired position. */
 .custom .trigger.left{ 
     float: left;
 }
@@ -78,7 +111,8 @@ para lograr la posición deseada. */
     float: right;
 }
 
-/* Los botones superiores (bumpers) siguen la misma lógica de posicionamiento que los gatillos */
+/* The bumpers follow the same methodology as the triggers in terms of
+placement */
 .custom .bumper{
     width: 89px;
     height: 28px;
@@ -92,14 +126,14 @@ para lograr la posición deseada. */
     left: 99px;
     top: 72px;
 }
-.custom .bumper.pressed{ /* La clase '.pressed' se usa en la mayoría de botones para indicar que han sido presionados */
+.custom .bumper.pressed{ /* The '.pressed' class is used for most buttons to signify they've been pressed */
     opacity: 1;
 }
 .custom .bumper.left{
-    /* Llámame vago o listo, pero ¿por qué hacer dos imágenes si son simétricas?
-    Podemos simplemente rotarlas en el navegador. Además, normalmente no necesitas
-    prefijos específicos de navegador, salvo excepciones.
-    NOTA: CLR Browser es básicamente Chrome, así que usa '-webkit-' como prefijo. */
+  /* Call me lazy or smart, but why should I make 2 bumpers when they're symmetrical
+  and I can just rotate them in the browser? Also, note that you most likely won't need
+  to use a browser speficic prefix unless it's something that is indeed browser specific.
+  NOTE: CLR Browser is basically chrome, so you use '-webkit-' as the browser prefix. */
     -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
     float: left;
@@ -107,9 +141,10 @@ para lograr la posición deseada. */
 .custom .bumper.right{
     float: right;
 }
-/* Este fragmento de código es para el indicador de jugador, que se representa en
-cuadrantes en el control de Xbox. No se llama así en el de PS3,
-pero sería innecesario cambiar el HTML solo por eso. */
+/* This bit of code is for the player indicator, which is represented in
+quandrants on the xbox controller. That's note what it's called on the
+PS3 controller but it'd be pointless for me to change the HTML for 
+something as pedantic as a name. */
 .custom .quadrant{
     position: absolute;
     background: url(ps3-assets/player-n.png);
@@ -118,14 +153,23 @@ pero sería innecesario cambiar el HTML solo por eso. */
     top: 140px;
     left: 240px;
 }
-/* Como el indicador de jugador es un sprite CSS, cambiamos la
-posición de fondo según el número del jugador.
-NOTA: El orden de jugadores empieza en 0, así que p0 = Jugador 1 */
-.custom .p0{ background-position: 0 -6px; }
-.custom .p1{ background-position: 0 -28px; }
-.custom .p2{ background-position: 0 -49px; }
-.custom .p3{ background-position: 0 -70px; }
-/* Esto ajusta el tamaño y posición del contenedor para los botones start y select */
+/* Since the player indicator is just a CSS sprite, we change the 
+position of the background to match the player number.
+NOTE: Player orderin starts at 0, so p0 = Player 1 */
+.custom .p0{
+    background-position: 0 -6px;
+}
+.custom .p1{
+    background-position: 0 -28px;
+}
+.custom .p2{
+    background-position: 0 -49px;
+}
+.custom .p3{
+    background-position: 0 -70px;
+}
+/* This is to size and position the containing div for the 
+start and select buttons. */
 .custom .arrows{
     position: absolute;
     width: 205px;
@@ -133,7 +177,7 @@ NOTA: El orden de jugadores empieza en 0, así que p0 = Jugador 1 */
     top: 250px;
     left: 291px;
 }
-/* Tamaño y sprite CSS para los botones start y select */
+/* Setting the size and CSS sprite for the start adn select buttons */
 .custom .back, .custom .start{
     background: url(ps3-assets/menus.png);
     width: 34px;
@@ -143,9 +187,16 @@ NOTA: El orden de jugadores empieza en 0, así que p0 = Jugador 1 */
     background-position-y: -21px;
     margin-top: 2px;
 }
-.custom .back{ float: left; width: 38px; }
-.custom .start{ float: right; width: 36px; background-position: 37px 0; }
-/* Posición y tamaño del contenedor de botones principales (cuadrado, círculo, triángulo, X) */
+.custom .back{
+    float: left;
+    width: 38px;
+}
+.custom .start{
+    float: right;
+    width: 36px;
+    background-position: 37px 0;
+}
+/* Positioning and size of the container for the face buttons */
 .custom .abxy{
     position: absolute;
     width: 204px;
@@ -153,7 +204,7 @@ NOTA: El orden de jugadores empieza en 0, así que p0 = Jugador 1 */
     top: 156px;
     left: 538px;
 }
-/* Clase base para facilitar el mapeo de sprites */
+/* base class used to simplify the sprite mapping */
 .custom .button{
     position: absolute;
     width:62px;
@@ -164,13 +215,27 @@ NOTA: El orden de jugadores empieza en 0, así que p0 = Jugador 1 */
     background-position-y: -64px;
     margin-top: 5px;
 }
-.custom .a{ background-position: 62px 0; top: 142px; left: 71px; }
-.custom .b{ background-position: 125px 0; top: 71px; right: 0px; }
-.custom .x{ background-position: 0 0; top: 71px; }
-.custom .y{ background-position: -63px 0; left: 71px; }
-/* Los sticks analógicos siguen el mismo principio de posicionamiento que los gatillos
-Nota que la rotación de los sticks está codificada con JS, aplicando
-el CSS inline. */
+.custom .a{
+    background-position: 62px 0;
+    top: 142px;
+    left: 71px;
+}
+.custom .b{
+    background-position: 125px 0;
+    top: 71px;
+    right: 0px;
+}
+.custom .x{
+    background-position: 0 0;
+    top: 71px;
+}
+.custom .y{
+    background-position: -63px 0;
+    left: 71px;
+}
+/* Analog sticks follow the same principles as the triggers in terms of positioning
+Note that the rotation of the sticks in hard coded with javascript, so it applies 
+the CSS inline. */
 .custom .sticks{
     position: absolute;
     width: 364px;
@@ -184,11 +249,21 @@ el CSS inline. */
     height:105px;
     width: 105px;
 }
-.custom .stick.pressed.left{ background-position-x: -106px; }
-.custom .stick.pressed.right{ background-position-x: -211px; }
-.custom .stick.left{ top: 0; left: 0; }
-.custom .stick.right{ top: calc(100% - 105px); left: calc(100% - 105px); }
-/* Posición y tamaño de la cruceta */
+.custom .stick.pressed.left{
+    background-position-x: -106px;
+}
+.custom .stick.pressed.right{
+    background-position-x: -211px;
+}
+.custom .stick.left{
+    top: 0;
+    left: 0;
+}
+.custom .stick.right{
+    top: calc(100% - 105px);
+    left: calc(100% - 105px);
+}
+/* Dpad possitioning and sizing */
 .custom .dpad{
     position: absolute;
     width: 140px;
@@ -200,28 +275,59 @@ el CSS inline. */
     background: url(ps3-assets/dpad.png);
     position: absolute;
 }
-.custom .face.up, .custom .face.down{ width: 38px; height: 52px; }
-.custom .face.left, .custom .face.right{ width: 52px; height: 38px; }
-.custom .face.up{ left: 50px; top: 0; background-position: 92px 0px; }
-.custom .face.down{ left: 50px; top: 79px; background-position: 131px 0; }
-.custom .face.left{ top: 47px; left: 0; background-position: 0px 0; }
-.custom .face.right{ top: 47px; right: 0px; background-position: 53px 0; }
+.custom .face.up, .custom .face.down{
+    width: 38px;
+    height: 52px;
+}
+.custom .face.left, .custom .face.right{
+    width: 52px;
+    height: 38px;
+}
+.custom .face.up{
+    left: 50px;
+    top: 0;
+    background-position: 92px 0px;
+}
+.custom .face.down{
+    left: 50px;
+    top: 79px;
+    background-position: 131px 0;
+}
+.custom .face.left{
+    top: 47px;
+    left: 0;
+    background-position: 0px 0;
+}
+.custom .face.right{
+    top: 47px;
+    right: 0px;
+    background-position: 53px 0;
+}
 .custom .face.pressed{
     margin-top: 5px;
     background-position-y: 52px;
 }
-/* Las siguientes entradas están vacías porque aún no las he usado, pero
-existen para mostrar un fightstick. Como los fightsticks tienen
-gatillos izquierdo y derecho y botones digitales, hay elementos
-HTML separados para mostrarlos como botones presionados en lugar de
-una configuración de opacidad */
-.custom .trigger-button.left{ }
-.custom .trigger-button.right{ }
-.custom .trigger-button.left.pressed{ }
-.custom .trigger-button.right.pressed{ }
-/* Aquí iría el CSS para fightstick. Lo ideal sería usar un sprite
-con las 8 posiciones posibles, y cambiarlo según la entrada.
-Las clases son autoexplicativas. */
+/* The following entries are empty because I haven't used them yet, but they
+exist for the purpose of displaying a fightstick. Since fightsticks have 
+the left and right triggers and digital buttons, there are separate 
+html items that allow the triggers to be shown as button presses isntead of
+an opacity setting */
+.custom .trigger-button.left{
+    
+}
+.custom .trigger-button.right{
+    
+}
+.custom .trigger-button.left.pressed{
+    
+}
+.custom .trigger-button.right.pressed{
+    
+}
+/* This is where the fight stick CSS would go. The ideal way of 
+showing the input would be to use an image sprite of a fight stick in
+all 8 positions, and change it according to the inputs. The classes 
+themselves are fairly self explanatory. */
 .fstick{
     position: absolute;
     width: 140px;
@@ -229,15 +335,30 @@ Las clases son autoexplicativas. */
     top: 192px;
     left: 74px;
 }
-.fstick.up{ }
-.fstick.down{ }
-.fstick.left{ }
-.fstick.right{ }
-.fstick.up.right{ }
-.fstick.up.left{ }
-.fstick.down.right{ }
-.fstick.down.left{ }
+.fstick.up{
+  
+}
+.fstick.down{
+  
+}
+.fstick.left{
+  
+}
+.fstick.right{
+  
+}
+.fstick.up.right{
+  
+}
+.fstick.up.left{
+  
+}
+.fstick.down.right{
+  
+}
+.fstick.down.left{
+  
+}
 
-/*FIN del Estilo del Controlador PS3*/
-
+/*END PS3 Controller Styling*/
 ```
