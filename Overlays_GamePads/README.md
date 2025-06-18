@@ -12,6 +12,8 @@ al final de la URL así:
 
 https://gamepadviewer.com/?p=1&css=https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4/GPOverlayPS4.css
 
+https://gamepadviewer.com/?p=1&css=https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4-VirtualValhalla/GPOverlayPS4-VirtualValhalla.css
+
 Si vas a usar un CSS personalizado para el visor de gamepad
 para diseñar tu propia skin, asumimos que tienes algún conocimiento
 básico sobre cómo funciona CSS. También recomiendo subir
