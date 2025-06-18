@@ -1,3 +1,8 @@
+# CSS Personalizado para Gamepad Viewer - PS3
+
+A continuación se muestra el CSS traducido y comentado en español para personalizar la apariencia del mando de PS3 en [Gamepad Viewer](https://gamepadviewer.com/).
+
+```css
 
 /*
 -Cómo usar CSS personalizado para GamePad Viewer-
@@ -238,3 +243,5 @@ Las clases son autoexplicativas. */
 .fstick.down.left{ }
 
 /*FIN del Estilo del Controlador PS3*/
+
+```
