@@ -18,7 +18,7 @@
 streaming-hub/
 ├── GamePads-Overlays/                # Archivos base: SVGs, CSS y assets gráficos de los overlays
 │    └── base/                        # Recursos y variantes base para controladores (más detalles dentro)
-├── Guia_nginx_rtmp_fallback/         # Guía completa para montar un servidor RTMP con auto-fallback en Windows
+├── [Guia_nginx_rtmp_fallback](Guia_nginx_rtmp_fallback/)         # Guía completa para montar un servidor RTMP con auto-fallback en Windows
 │    └── nginx/                       # Binarios y configuración específica de nginx-rtmp para Windows
 ├── NohBoard_Overlays/                # Overlays adaptados para NohBoard (teclado visual para streamers)
 ├── README.md                         # Este archivo de documentación principal
