@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Matrix Crypto PUBG</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<script>
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const symbols = [
+    "₿", "ETH", "ADA", "DOGE", "M416", "🔫", "🥇", "CHICKEN", "DINNER", "WALLET", "🚁", "🪂", "DROP",
+  // Letras mayúsculas
+  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+  "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+  
+  // Letras minúsculas
+  "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+  "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+  
+  // Números
+  "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+
+  // Símbolos
+  "@", "#", "$", "%", "^", "&", "*", "+", "=", "-", "_",
+  "<", ">", "[", "]", "{", "}", "|",
+
+  // Katakana usados en Matrix
+  "ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ",
+  "サ", "シ", "ス", "セ", "ソ", "タ", "チ", "ツ", "テ", "ト",
+  "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "ヒ", "フ", "ヘ", "ホ",
+  "マ", "ミ", "ム", "メ", "モ", "ヤ", "ユ", "ヨ",
+  "ラ", "リ", "ル", "レ", "ロ", "ワ", "ヲ", "ン"
+];
+
+
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+
+  function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = "#00ff00";
+    ctx.font = `${fontSize}px monospace`;
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = symbols[Math.floor(Math.random() * symbols.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  setInterval(draw, 33);
+
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+</body>
+</html>
