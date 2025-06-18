@@ -1,6 +1,6 @@
 # 🎮 streaming-hub
 
-¡Bienvenido/a! Este proyecto es tu kit esencial para mostrar mandos de videojuegos en overlays de streaming, videos o páginas web. Aquí encontrarás recursos gráficos listos para usar y guías técnicas para potenciar tus transmisiones o proyectos interactivos.
+¡Bienvenido/a! Este proyecto es tu kit esencial para mostrar mandos de videojuegos en overlays de streaming, videos o páginas web. Aquí encontrarás recursos gráficos listos para usar y guías técnicas para streaming avanzado.
 
 ---
 
@@ -15,7 +15,7 @@
 ## 📁 Estructura del repositorio
 
 ```
-streaming-hubGamePads-Overlays/
+streaming-hub/
 ├── GamePads-Overlays/                # Archivos base: SVGs, CSS y assets gráficos de los overlays
 │    └── base/                        # Recursos y variantes base para controladores (más detalles dentro)
 ├── Guia_nginx_rtmp_fallback/         # Guía completa para montar un servidor RTMP con auto-fallback en Windows
@@ -46,14 +46,14 @@ streaming-hubGamePads-Overlays/
 
 1. Descarga o clona el repositorio:
    ```bash
-   git clone https://github.com/dimonet78/GamePads-Overlays.git
+   git clone https://github.com/0xDimonet78/streaming-hub.git
    ```
 2. Elige el overlay y estilo que mejor se adapte a tu mando y escena.
 3. Integra los archivos en tu proyecto web o en OBS.
 
    Ejemplo HTML:
    ```html
-   <link rel="stylesheet" href="Base/style.css">
+   <link rel="stylesheet" href="GamePads-Overlays/base/style.css">
    <div class="controller xbox"></div>
    ```
 
