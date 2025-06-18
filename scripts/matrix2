@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Matrix Crypto PUBG Mejorado</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+      height: 100%;
+    }
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    #control-panel {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 8px;
+      z-index: 10;
+      font-family: monospace;
+      font-size: 14px;
+      user-select: none;
+    }
+    #control-panel label, #control-panel input {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+<!-- Panel para controlar velocidad y color -->
+<div id="control-panel">
+  <label for="speed">Velocidad:</label>
+  <input type="range" id="speed" min="10" max="100" value="33">
+  <label for="color">Color:</label>
+  <input type="color" id="color" value="#00ff00">
+</div>
+<canvas id="matrix"></canvas>
+<script>
+  // Referencia al canvas y contexto 2D
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+
+  // Arreglo de símbolos: cripto, PUBG, mayúsculas, minúsculas, números, símbolos, katakana
+  const symbols = [
+    "₿", "ETH", "ADA", "DOGE", "M416", "🔫", "🥇", "CHICKEN", "DINNER", "WALLET", "🚁", "🪂", "DROP",
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+    "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+    "@", "#", "$", "%", "^", "&", "*", "+", "=", "-", "_",
+    "<", ">", "[", "]", "{", "}", "|",
+    "ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ",
+    "サ", "シ", "ス", "セ", "ソ", "タ", "チ", "ツ", "テ", "ト",
+    "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "ヒ", "フ", "ヘ", "ホ",
+    "マ", "ミ", "ム", "メ", "モ", "ヤ", "ユ", "ヨ",
+    "ラ", "リ", "ル", "レ", "ロ", "ワ", "ヲ", "ン"
+  ];
+
+  // Variables para personalización de color y velocidad
+  let matrixColor = "#00ff00"; // Color verde por defecto
+  let speed = 33; // Velocidad en milisegundos por defecto
+
+  // Función para calcular el tamaño de fuente de manera responsive
+  function getFontSize() {
+    return Math.max(14, Math.floor(window.innerWidth / 100));
+  }
+  let fontSize = getFontSize();
+
+  // Variables para las columnas y las gotas ("drops")
+  let columns, drops;
+
+  // Función para ajustar el canvas y recalcular columnas/drops
+  function setupMatrix() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    fontSize = getFontSize();
+    columns = Math.floor(canvas.width / fontSize);
+    drops = Array(columns).fill(1); // Inicializa todas las gotas en la parte superior
+  }
+  setupMatrix(); // Llama una vez al cargar
+
+  // Función principal de dibujo
+  function draw() {
+    // Dibuja un rectángulo negro semitransparente para crear la estela
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = `${fontSize}px monospace`; // Establece la fuente
+
+    // Recorre cada columna
+    for (let i = 0; i < drops.length; i++) {
+      // Selecciona un símbolo aleatorio
+      const text = symbols[Math.floor(Math.random() * symbols.length)];
+      // Efecto de brillo aleatorio: algunos caracteres serán blancos
+      ctx.fillStyle = Math.random() > 0.97 ? "#fff" : matrixColor;
+      // Dibuja el texto en la posición correspondiente
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      // Si la gota llegó al fondo y pasa un azar, reiníciala arriba
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      // Avanza la gota
+      drops[i]++;
+    }
+  }
+
+  // Intervalo para animar el efecto
+  let interval = setInterval(draw, speed);
+
+  // Permite ajustar la velocidad desde el panel
+  document.getElementById('speed').oninput = function(e) {
+    speed = parseInt(e.target.value);
+    clearInterval(interval);
+    interval = setInterval(draw, speed);
+  };
+
+  // Permite cambiar el color desde el panel
+  document.getElementById('color').oninput = function(e) {
+    matrixColor = e.target.value;
+  };
+
+  // Ajusta todo al redimensionar la ventana
+  window.addEventListener("resize", setupMatrix);
+
+</script>
+</body>
+</html>
