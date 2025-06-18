@@ -81,5 +81,3 @@ Inspirado por la comunidad de streaming y los overlays más usados en Twitch y Y
 ## 📄 Licencia
 
 MIT — ¡Libertad total para modificar, compartir y mejorar!
-```
-
