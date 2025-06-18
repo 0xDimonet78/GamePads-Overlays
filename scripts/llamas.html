@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Llamas Animadas OBS Fondo Transparente</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+<canvas id="fire"></canvas>
+<script>
+// --- CONFIGURACIÓN PRINCIPAL ---
+const FIRE_WIDTH = 400;    // resolucion interna, puedes subir si quieres más detalle
+const FIRE_HEIGHT = 80;    // altura del fuego
+const SCALE = 2.5;         // escala del fuego (ancho en pantalla = FIRE_WIDTH * SCALE)
+const FIRE_COLORS = [
+  [0,0,0,0], [20,10,0,40], [60,20,0,80], [120,30,0,130], [255,80,0,180], [255,180,30,220], [255,255,180,255]
+];
+const SPEED = 2;           // velocidad de propagación
+
+// --- INICIALIZACIÓN CANVAS ---
+const canvas = document.getElementById('fire');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let firePixelsArray = [];
+let fireWidth = FIRE_WIDTH;
+let fireHeight = FIRE_HEIGHT;
+
+// --- AJUSTA CANVAS AL REDIMENSIONAR ---
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+
+// --- CREAR MATRIZ DE LLAMAS ---
+function createFireDataStructure() {
+  firePixelsArray = new Array(fireWidth * fireHeight).fill(0);
+}
+
+// --- INICIAR FUEGO EN LA BASE ---
+function createFireSource() {
+  for (let col = 0; col < fireWidth; col++) {
+    firePixelsArray[(fireHeight - 1) * fireWidth + col] = FIRE_COLORS.length - 1;
+  }
+}
+
+// --- PROPAGACIÓN DEL FUEGO ---
+function updateFire() {
+  for (let row = 0; row < fireHeight - 1; row++) {
+    for (let col = 0; col < fireWidth; col++) {
+      const src = (row + 1) * fireWidth + col;
+      const decay = Math.floor(Math.random() * SPEED);
+      const belowIntensity = firePixelsArray[src];
+      const dst = row * fireWidth + ((col - decay + fireWidth) % fireWidth);
+      const newIntensity = Math.max(belowIntensity - (decay & 1), 0);
+      firePixelsArray[dst] = newIntensity;
+    }
+  }
+}
+
+// --- DIBUJAR FUEGO EN EL CANVAS ---
+function renderFire() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const image = ctx.createImageData(fireWidth, fireHeight);
+  for (let i = 0; i < fireWidth * fireHeight; i++) {
+    const intensity = firePixelsArray[i];
+    const color = FIRE_COLORS[intensity] || [0,0,0,0];
+    image.data[i * 4] = color[0];
+    image.data[i * 4 + 1] = color[1];
+    image.data[i * 4 + 2] = color[2];
+    image.data[i * 4 + 3] = color[3];
+  }
+  // Dibuja el fuego SOLO en la parte baja de la pantalla, escalado horizontalmente
+  ctx.putImageData(
+    image,
+    (canvas.width - fireWidth * SCALE) / 2,
+    canvas.height - fireHeight * SCALE
+  );
+  ctx.drawImage(
+    canvas,
+    (canvas.width - fireWidth * SCALE) / 2,
+    canvas.height - fireHeight * SCALE,
+    fireWidth * SCALE,
+    fireHeight * SCALE,
+    (canvas.width - fireWidth * SCALE) / 2,
+    canvas.height - fireHeight * SCALE,
+    fireWidth * SCALE,
+    fireHeight * SCALE
+  );
+}
+
+// --- BUCLE DE ANIMACIÓN ---
+function loop() {
+  updateFire();
+  renderFire();
+  requestAnimationFrame(loop);
+}
+
+// --- INICIALIZACIÓN ---
+createFireDataStructure();
+createFireSource();
+resizeCanvas();
+loop();
+</script>
+</body>
+</html>
