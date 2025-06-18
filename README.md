@@ -43,25 +43,6 @@ streaming-hub/
 
 ---
 
-## 🛠️ Cómo usar los overlays
-
-1. Descarga o clona el repositorio:
-   ```bash
-   git clone https://github.com/0xDimonet78/streaming-hub.git
-   ```
-2. Elige el overlay y estilo que mejor se adapte a tu mando y escena.
-3. Integra los archivos en tu proyecto web o en OBS.
-
-   Ejemplo HTML:
-   ```html
-   <link rel="stylesheet" href="GamePads-Overlays/base/style.css">
-   <div class="controller xbox"></div>
-   ```
-
-4. Personaliza los estilos CSS y los SVG si lo necesitas.
-
----
-
 ## 💡 Consejos y filosofía
 
 - Este proyecto nació para facilitar la vida a streamers y creadores que buscan overlays profesionales sin complicaciones.
@@ -72,7 +53,7 @@ streaming-hub/
 
 ## 👤 Créditos
 
-Creado y mantenido por **dimonet78**.  
+Creado y mantenido por **0xDimonet78**.  
 Inspirado por la comunidad de streaming y los overlays más usados en Twitch y YouTube.
 
 ---
