@@ -81,5 +81,25 @@
       // Selecciona un símbolo aleatorio del arreglo
       const text = symbols[Math.floor(Math.random() * symbols.length)];
       // Efecto de brillo ocasional (algunos caracteres en blanco)
-      ctx.fillStyle = Math*
-
+      ctx.fillStyle = Math.random() > 0.97 ? "#fff" : matrixColor;
+      // Dibuja el símbolo en la posición correspondiente
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      // Si la gota llegó al fondo y pasa el azar, reiníciala arriba
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      // Avanza la gota hacia abajo
+      drops[i]++;
+    }
+  }
+
+  // Ejecuta el dibujo cada "speed" milisegundos
+  let interval = setInterval(draw, speed);
+
+  // Ajusta todo si se redimensiona la ventana
+  window.addEventListener("resize", setupMatrix);
+
+</script>
+</body>
+</html>
