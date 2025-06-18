@@ -33,9 +33,6 @@ Lo siguiente es una copia del código utilizado para mostrar la skin del control
 en Gamepad Viewer. Puedes desplazarte hacia abajo y leer los comentarios para
 entender cómo funciona el estilo y demás. ¡Feliz personalización!
 
-P.D. Si usas esta herramienta a menudo y te gustaría 'invitarme a un café', puedes
-hacerlo vía mi PayPal: https://paypal.me/mrmcpowned
-
 ```css
 
 /*INICIO de Estilo del Controlador PS3*/
