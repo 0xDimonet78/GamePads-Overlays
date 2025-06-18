@@ -8,7 +8,7 @@ https://gamepadviewer.com/
 Habilitar un CSS personalizado es tan fácil como añadir &css=[url al archivo css]
 al final de la URL así:
 
-https://gamepadviewer.com/?p=1&css=https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4/style.css
+https://gamepadviewer.com/?p=1&css=https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4/GPOverlayPS4.css
 
 Si vas a usar un CSS personalizado para el visor de gamepad
 para diseñar tu propia skin, asumimos que tienes algún conocimiento
