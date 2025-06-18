@@ -1,6 +1,6 @@
 
 .controller.custom {
-  background: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/base.svg);
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4/base.svg);
   height: 598px;
   width: 806px;
   /*    margin-left: -403px;
@@ -8,7 +8,7 @@
 }
 
 .custom.disconnected {
-  background: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/base.svg);
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4/base.svg);
 }
 
 .custom.disconnected div {
@@ -25,7 +25,7 @@
 .custom .trigger {
   width: 99px;
   height: 100%;
-  background: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/triggers.svg);
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4//triggers.svg);
   opacity: 0;
 }
 
@@ -41,7 +41,7 @@
 .custom .bumper {
   width: 99px;
   height: 23px;
-  background: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/bumper.svg) no-repeat;
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4//bumper.svg) no-repeat;
   opacity: 0;
 }
 
@@ -77,7 +77,7 @@
 }
 
 .custom .touchpad.pressed {
-  background: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/touchpad.svg) no-repeat center;
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4//touchpad.svg) no-repeat center;
 }
 
 .custom .meta {
@@ -89,7 +89,7 @@
 }
 
 .custom .meta.pressed {
-  background: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/LogoLamborghini.svg) no-repeat center;
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4//LogoLamborghini.svg) no-repeat center;
 }
 
 /*Not needed, but I like keeping them here for posterity*/
@@ -123,7 +123,7 @@ background-position: 0 -70px;
 
 .custom .back,
 .custom .start {
-  background: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/start.svg);
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4//start.svg);
   width: 28px;
   height: 46px;
   opacity: 0;
@@ -159,7 +159,7 @@ background-position: 0 -70px;
   position: absolute;
   width: 55px;
   height: 55px;
-  background: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/face.svg);
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4//face.svg);
 }
 
 .custom .button.pressed {
@@ -199,7 +199,7 @@ background-position: 0 -70px;
 
 .custom .stick {
   position: absolute;
-  background: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/sticks.svg);
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4//sticks.svg);
   height: 94px;
   width: 94px;
 }
@@ -231,7 +231,7 @@ background-position: 0 -70px;
 }
 
 .custom .face {
-  background: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/dpad.svg);
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4//dpad.svg);
   position: absolute;
 }
 
@@ -305,7 +305,7 @@ background-position: 0 -70px;
 
 .custom.white .back,
 .custom .start {
-  background-image: url(https://dimonet78.github.io/TD2_Mapping/images/OverlayPS4/share.svg);
+  background-image: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4//share.svg);
 }
 
 .custom.white .button {
