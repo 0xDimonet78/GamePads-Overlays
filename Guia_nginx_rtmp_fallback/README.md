@@ -58,117 +58,217 @@ C:\nginx\
 Guarda esto en `C:\nginx\conf\nginx.conf`:
 
 ```nginx
-worker_processes  1;
+# Número de procesos worker (puede ser 'auto' para ajustarse a núcleos disponibles)
+worker_processes  1; # worker_processes  auto;
 
+# Nivel de registro de errores (info para más detalles)
 error_log  logs/error.log info;
 
 events {
+    # Número máximo de conexiones simultáneas por worker
     worker_connections  1024;
 }
 
+# Bloque para la configuración de RTMP (streaming en vivo)
 rtmp {
     server {
+        # Puerto por defecto para RTMP
         listen 1935;
+        # Tamaño de los chunks de datos
         chunk_size 4096;
 
-        # OBS que emite a todas las plataformas (multi-salida)
+        # Aplicación para emitir a varias plataformas simultáneamente
         application obs_multi {
             live on;                          # Habilita streaming en vivo
-            record off;                       # No grabar stream
-            allow publish 192.168.1.0/24;     # Solo IPs de LAN pueden publicar
-            allow publish 127.0.0.1;          # También localhost
-            deny publish all;                 # Bloquea el resto
+            record off;                       # No grabar el stream
+            allow publish 192.168.1.0/24;     # Solo pueden publicar equipos de la red local
+            allow publish 127.0.0.1;          # Permite publicar desde localhost
+            deny publish all;                 # Deniega el resto de publicaciones
 
-            # RTMP push a cada plataforma (coloca tus claves)
+            # Configuración HLS (comentado por defecto)
+            # hls on;
+            # hls_path /tmp/hls;
+            # hls_fragment 4;                # Fragmentos de 4 segundos
+            # hls_playlist_length 60;        # Playlist de 60 segundos
+
+            # Empuja el stream a cada plataforma (reemplaza con tus claves)
             push rtmp://live.twitch.tv/app/TU_CLAVE_TWITCH;
             push rtmp://rtmp.kick.com/app/TU_CLAVE_KICK;
             push rtmp://a.rtmp.youtube.com/live2/TU_CLAVE_YOUTUBE;
         }
 
-        # OBS para Twitch únicamente
+        # Aplicación para emitir solo a Twitch
         application obs_twitch {
             live on;
             record off;
             allow publish 192.168.1.0/24;
             allow publish 127.0.0.1;
             deny publish all;
+
+            # hls on;
+            # hls_path /tmp/hls;
+            # hls_fragment 4;
+            # hls_playlist_length 60;
+
             push rtmp://live.twitch.tv/app/TU_CLAVE_TWITCH;
         }
 
-        # OBS para YouTube únicamente
+        # Aplicación para emitir solo a YouTube
         application obs_youtube {
             live on;
             record off;
             allow publish 192.168.1.0/24;
             allow publish 127.0.0.1;
             deny publish all;
+
+            # hls on;
+            # hls_path /tmp/hls;
+            # hls_fragment 4;
+            # hls_playlist_length 60;
+
             push rtmp://a.rtmp.youtube.com/live2/TU_CLAVE_YOUTUBE;
         }
 
-        # OBS para Kick únicamente
+        # Aplicación para emitir solo a Kick
         application obs_kick {
             live on;
             record off;
             allow publish 192.168.1.0/24;
             allow publish 127.0.0.1;
             deny publish all;
+
+            # hls on;
+            # hls_path /tmp/hls;
+            # hls_fragment 4;
+            # hls_playlist_length 60;
+
             push rtmp://rtmp.kick.com/app/TU_CLAVE_KICK;
         }
 
-        # Aplicación de respaldo (contenido alternativo)
+        # Aplicación de respaldo (puedes usarla para contenido alternativo)
         application fallback {
             live on;
             record off;
+
+            # hls on;
+            # hls_path /tmp/hls;
+            # hls_fragment 4;
+            # hls_playlist_length 60;
         }
 
-        # Salida principal (elige el mejor stream desde el script)
+        # Salida principal; puedes elegir el mejor stream mediante script externo
         application live {
             live on;
             record off;
             allow publish 127.0.0.1;
             allow publish 192.168.1.0/24;
             deny publish all;
-            # Puedes añadir push a plataformas si quieres retransmitir el resultado final
+
+            # hls on;
+            # hls_path /tmp/hls;
+            # hls_fragment 4;
+            # hls_playlist_length 60;
+
+            # Puedes añadir push a plataformas para retransmitir el resultado final
             # push rtmp://live.twitch.tv/app/TU_CLAVE_FINAL;
         }
     }
 }
 
+# Configuración HTTP para acceso web, estadísticas y HLS
 http {
-    include       mime.types;
-    default_type  application/octet-stream;
-    sendfile        on;
-    keepalive_timeout  65;
+    include       mime.types;                 # Tipos MIME para archivos
+    default_type  application/octet-stream;   # Tipo por defecto
+    sendfile        on;                       # Permite enviar archivos de forma eficiente
+    keepalive_timeout  65;                    # Tiempo de espera de keep-alive
 
     server {
-        listen      8080;
-        server_name  localhost;
+        listen      8080;                     # Puerto de escucha HTTP (puedes usar 80)
+        server_name  localhost;               # Nombre del servidor
 
         location / {
-            root html;
-            index  index.html index.htm;
+            root html;                        # Carpeta raíz para contenido web
+            index  index.html index.htm;      # Archivos de índice
         }
 
         location /stat {
-            rtmp_stat all;              # Estado RTMP en XML
-            rtmp_stat_stylesheet stat.xsl;
+            rtmp_stat all;                    # Muestra estado RTMP en XML
+            rtmp_stat_stylesheet stat.xsl;    # Aplica hoja de estilos
         }
 
         location /stat.xsl {
-            root html;
+            root html;                        # Hoja de estilos para /stat
         }
 
+        # Configuración para servir videos HLS
         location /hls {
-            root html;
-            add_header Cache-Control no-cache;
-            add_header Access-Control-Allow-Origin *;
-
             types {
                 application/vnd.apple.mpegurl m3u8;
                 video/mp2t ts;
             }
+            root /tmp;
+            add_header Cache-Control no-cache;
+
+            # Configuración de CORS para HLS
+            add_header 'Access-Control-Allow-Origin' '*' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS' always;
+            add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept' always;
+            add_header 'Access-Control-Expose-Headers' 'Content-Length,Content-Range' always;
+
+            # Respuesta especial para pre-flight (OPTIONS) de CORS
+            if ($request_method = 'OPTIONS') {
+                add_header 'Access-Control-Allow-Origin' '*' always;
+                add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS' always;
+                add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept' always;
+                add_header 'Access-Control-Max-Age' 1728000;
+                add_header 'Content-Type' 'text/plain charset=UTF-8';
+                add_header 'Content-Length' 0;
+                return 204;
+            }
         }
+
+        # Redirección HTTP->HTTPS (comentada por defecto)
+        # return 301 https://$host$request_uri;
     }
+
+    # Bloque de ejemplo para configuración HTTPS con certificados Let's Encrypt (comentado)
+    # server {
+    #    listen 443 ssl;
+    #    server_name www.tudominio.com;
+    #    ssl_certificate /etc/letsencrypt/live/www.tudominio.com/fullchain.pem;
+    #    ssl_certificate_key /etc/letsencrypt/live/www.tudominio.com/privkey.pem;
+    #    include /etc/letsencrypt/options-ssl-nginx.conf;
+    #    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    #    location / {
+    #        root /usr/local/nginx/html;
+    #        index index.html index.htm;
+    #    }
+    #
+    #    location /hls {
+    #        types {
+    #            application/vnd.apple.mpegurl m3u8;
+    #            video/mp2t ts;
+    #        }
+    #        root /tmp;
+    #        add_header Cache-Control no-cache;
+    #
+    #        # Configuración CORS para HLS en HTTPS
+    #        add_header 'Access-Control-Allow-Origin' '*' always;
+    #        add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS' always;
+    #        add_header 'Access-Control-Allow-Headers' 'Range';
+    #        add_header 'Access-Control-Expose-Headers' 'Content-Length,Content-Range';
+    #
+    #        if ($request_method = 'OPTIONS') {
+    #            add_header 'Access-Control-Allow-Origin' '*' always;
+    #            add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS' always;
+    #            add_header 'Access-Control-Allow-Headers' 'Range';
+    #            add_header 'Access-Control-Max-Age' 1728000;
+    #            add_header 'Content-Type' 'text/plain charset=UTF-8';
+    #            add_header 'Content-Length' 0;
+    #            return 204;
+    #        }
+    #    }
+    # }
 }
 ```
 🔧 Asegúrate de reemplazar `TU_CLAVE_TWITCH`, `TU_CLAVE_KICK` y `TU_CLAVE_YOUTUBE` por tus claves reales.
