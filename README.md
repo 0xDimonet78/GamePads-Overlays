@@ -15,25 +15,20 @@
 ## 📁 Estructura del repositorio
 
 ```
-GamePads-Overlays/
-├── Base/                       # Archivos base: SVGs, CSS y assets gráficos de los overlays
-├── GamePad_Base/               # Recursos y variantes base para controladores (más detalles dentro)
-├── NohBoard_Overlays/          # Overlays adaptados para NohBoard (teclado visual para streamers)
-├── Guia_nginx_rtmp_fallback/   # Guía completa para montar un servidor RTMP con auto-fallback en Windows
-│    └── nginx/                 # Binarios y configuración específica de nginx-rtmp para Windows
-├── README.md                   # Este archivo de documentación principal
+streaming-hubGamePads-Overlays/
+├── GamePads-Overlays/                # Archivos base: SVGs, CSS y assets gráficos de los overlays
+│    └── base/                        # Recursos y variantes base para controladores (más detalles dentro)
+├── Guia_nginx_rtmp_fallback/         # Guía completa para montar un servidor RTMP con auto-fallback en Windows
+│    └── nginx/                       # Binarios y configuración específica de nginx-rtmp para Windows
+├── NohBoard_Overlays/                # Overlays adaptados para NohBoard (teclado visual para streamers)
+├── README.md                         # Este archivo de documentación principal
 ```
 
 ### Detalle de carpetas
 
-- **Base/**  
+- **GamePads-Overlays/**  
   Contiene los SVG y hojas de estilo principales para overlays de mandos. Aquí están los archivos que puedes usar directamente en tu escena de OBS o web.
-
-- **GamePad_Base/**  
   Ejemplos y variantes de overlays para diferentes tipos de gamepad. Incluye archivos editables y ejemplos de integración.
-
-- **NohBoard_Overlays/**  
-  Overlays listos para NohBoard, ideal para streamers que quieren mostrar teclas y gamepad de forma visual.
 
 - **Guia_nginx_rtmp_fallback/**  
   Guía paso a paso para armar tu propio servidor de streaming RTMP en Windows, con scripts de auto-switch y seguridad.
@@ -41,6 +36,9 @@ GamePads-Overlays/
   - Scripts PowerShell para automatizar la selección de señal.
   - Binarios de nginx-rtmp para Windows (en subcarpeta `nginx/`).
   - Consejos de seguridad y resolución de problemas.
+
+- **NohBoard_Overlays/**  
+  Overlays listos para NohBoard, ideal para streamers que quieren mostrar teclas y gamepad de forma visual.
 
 ---
 
