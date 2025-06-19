@@ -5,8 +5,7 @@ Esta carpeta contiene una colección de scripts HTML diseñados principalmente p
 ## Contenido de la carpeta
 
 - ### [vhs.html](vhs.html)
-
--- Genera un efecto visual tipo VHS clásico, con distorsiones, desenfoques y líneas horizontales, simulando el aspecto de una cinta de video antigua. Es ideal para overlays nostálgicos o para dar un toque retro a tu transmisión. El fondo es transparente.
+Genera un efecto visual tipo VHS clásico, con distorsiones, desenfoques y líneas horizontales, simulando el aspecto de una cinta de video antigua. Es ideal para overlays nostálgicos o para dar un toque retro a tu transmisión. El fondo es transparente.
 
 - ### [fido.html](fido.html)
 
