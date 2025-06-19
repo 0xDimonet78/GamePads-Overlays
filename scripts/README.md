@@ -24,13 +24,9 @@ Muestra el clásico efecto "Matrix Rain" con símbolos y letras cayendo en casca
 
 Variante del efecto Matrix, pero con opciones fáciles de modificar para el color de los símbolos y la velocidad de la animación. También incluye símbolos personalizados y fondo negro.
 
-### fireworks.html
+### [fireworks.html](fireworks.html)
 
 Genera fuegos artificiales animados sobre fondo transparente. Los fuegos artificiales aparecen en posiciones y colores aleatorios, perfectos para celebrar momentos especiales en stream o como overlay decorativo.
-
-### README..md
-
-(Este archivo) Explica el propósito y funcionamiento de los scripts incluidos en esta carpeta.
 
 ---
 
