@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Matrix Personalized</title>
+  <title>Matrix Crypto PUBG</title>
   <style>
     html, body {
       margin: 0;
@@ -11,39 +11,39 @@
       overflow: hidden;
       height: 100%;
     }
+
     canvas {
       display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
     }
   </style>
 </head>
 <body>
 <canvas id="matrix"></canvas>
 <script>
-  // ======= CONFIGURACIÓN PRINCIPAL =======
-  // Cambia el color aquí (por ejemplo, "#00ff00" para verde)
-  const matrixColor = "#00ff00";
-  // Cambia la velocidad aquí (milisegundos entre frames; menor = más rápido)
-  const speed = 33;
+  // === VARIABLES DE CONFIGURACIÓN ===
+  const matrixColor = "#00ff00"; // Cambia aquí el color (por ejemplo, "#00ff00" para verde)
+  const speed = 33;              // Cambia aquí la velocidad (milisegundos entre frames; menor = más rápido)
 
-  // ======= SÍMBOLOS A MOSTRAR =======
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
   const symbols = [
     "₿", "ETH", "ADA", "DOGE", "M416", "🔫", "🥇", "CHICKEN", "DINNER", "WALLET", "🚁", "🪂", "DROP",
+    // Letras mayúsculas
     "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
     "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+    // Letras minúsculas
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
     "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+    // Números
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+    // Símbolos
     "@", "#", "$", "%", "^", "&", "*", "+", "=", "-", "_",
     "<", ">", "[", "]", "{", "}", "|",
-    "ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ",
-    "サ", "シ", "ス", "セ", "ソ", "タ", "チ", "ツ", "テ", "ト",
-    "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "ヒ", "フ", "ヘ", "ホ",
-    "マ", "ミ", "ム", "メ", "モ", "ヤ", "ユ", "ヨ",
-    "ラ", "リ", "ル", "レ", "ロ", "ワ", "ヲ", "ン"
-    "<", ">", "[", "]", "{", "}", "|",
+    // Katakana usados en Matrix
     "ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ",
     "サ", "シ", "ス", "セ", "ソ", "タ", "チ", "ツ", "テ", "ト",
     "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "ヒ", "フ", "ヘ", "ホ",
@@ -51,61 +51,34 @@
     "ラ", "リ", "ル", "レ", "ロ", "ワ", "ヲ", "ン"
   ];
 
-  // ======= INICIALIZACIÓN DEL CANVAS =======
-  const canvas = document.getElementById('matrix');
-  const ctx = canvas.getContext('2d');
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
 
-  // Calcula el tamaño de fuente según el ancho de la ventana
-  function getFontSize() {
-    return Math.max(14, Math.floor(window.innerWidth / 100));
-  }
-  let fontSize = getFontSize();
-
-  // Variables para columnas y "gotas"
-  let columns, drops;
-
-  // Configura el canvas y las gotas al inicio o si se redimensiona
-  function setupMatrix() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    fontSize = getFontSize();
-    columns = Math.floor(canvas.width / fontSize);
-    drops = Array(columns).fill(1);
-  }
-  setupMatrix();
-
-  // ======= FUNCIÓN PRINCIPAL DE DIBUJO =======
   function draw() {
-    // Fondo negro semitransparente para el efecto de estela
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    ctx.fillStyle = matrixColor; // Usa la variable para el color
     ctx.font = `${fontSize}px monospace`;
 
-    // Recorre cada columna para dibujar un símbolo
     for (let i = 0; i < drops.length; i++) {
-      // Selecciona un símbolo aleatorio del arreglo
       const text = symbols[Math.floor(Math.random() * symbols.length)];
-      // Efecto de brillo ocasional (algunos caracteres en blanco)
-      ctx.fillStyle = Math.random() > 0.97 ? "#fff" : matrixColor;
-      // Dibuja el símbolo en la posición correspondiente
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-      // Si la gota llegó al fondo y pasa el azar, reiníciala arriba
       if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
         drops[i] = 0;
       }
-      // Avanza la gota hacia abajo
       drops[i]++;
     }
   }
 
-  // Ejecuta el dibujo cada "speed" milisegundos
-  let interval = setInterval(draw, speed);
+  let interval = setInterval(draw, speed); // Usa la variable para la velocidad
 
-  // Ajusta todo si se redimensiona la ventana
-  window.addEventListener("resize", setupMatrix);
-
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
 </script>
 </body>
 </html>
