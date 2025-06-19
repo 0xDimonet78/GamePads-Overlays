@@ -16,12 +16,13 @@
 
 ```
 streaming-hub/
-├── Guia_nginx_rtmp_fallback/         # Guía completa para montar un servidor RTMP con auto-fallback en Windows
-│    └── nginx/                       # Binarios y configuración específica de nginx-rtmp para Windows
-├── Overlays_GamePads/                # Archivos base: SVGs, CSS y assets gráficos de los overlays
-│    └── base/                        # Recursos y variantes base para controladores (más detalles dentro)
-├── Overlays_NohBoard/                # Overlays adaptados para NohBoard (teclado visual para streamers)
-├── README.md                         # Este archivo de documentación principal
+├── Guia_nginx_rtmp_fallback/    # Guía completa para montar un servidor RTMP con auto-fallback en Windows
+│    └── nginx/                  # Binarios y configuración específica de nginx-rtmp para Windows
+├── Overlays_GamePads/           # Archivos base: SVGs, CSS y assets gráficos de los overlays
+│    └── base/                   # Recursos y variantes base para controladores (más detalles dentro)
+├── Overlays_NohBoard/           # Overlays adaptados para NohBoard (teclado visual para streamers)
+├── scripts/                     # Scripts con efectos para OBS (se agregan como fuente de navegador)
+├── README.md                    # Este archivo de documentación principal
 ```
 
 ### Detalle de carpetas
@@ -40,6 +41,10 @@ streaming-hub/
 - **[Overlays_NohBoard/](Overlays_NohBoard)**  
 - **Overlays_NohBoard/**  
   Overlays listos para NohBoard, ideal para streamers que quieren mostrar teclas y gamepad de forma visual.
+
+- **[scripts/](scripts)**  
+- **scripts/**  
+  Scripts para agregar a tus streams como fuente de navegador.
 
 ---
 
