@@ -39,11 +39,9 @@ streaming-hub/
   Ejemplos y variantes de overlays para diferentes tipos de gamepad. Incluye archivos editables y ejemplos de integración.
 
 - **[Overlays_NohBoard/](Overlays_NohBoard)**  
-- **Overlays_NohBoard/**  
   Overlays listos para NohBoard, ideal para streamers que quieren mostrar teclas y gamepad de forma visual.
 
 - **[scripts/](scripts)**  
-- **scripts/**  
   Scripts para agregar a tus streams como fuente de navegador.
 
 ---
