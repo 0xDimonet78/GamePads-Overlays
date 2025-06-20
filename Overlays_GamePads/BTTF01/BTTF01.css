@@ -26,7 +26,7 @@
 
 .custom .trigger {
   width: 109.623px;
-  height: 100%;
+  height: 100.645px;
   background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/triggers.svg);
   opacity: 0;
 }
@@ -37,7 +37,7 @@
 
 .custom .trigger.right {
   float: right;
-  background-position-x: 99px;
+  background-position-x: 109.623px;
 }
 
 .custom .bumper {
