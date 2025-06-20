@@ -1,0 +1,338 @@
+/* Overlays_GamePads/BTTF01 */
+
+/*BEGIN PS4 Controller Styling*/
+.controller.custom {
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/base.svg);
+  height: 678.357px;
+  width: 964.781px;
+  /*    margin-left: -403px;
+        margin-top: -280px;*/
+}
+
+.custom.disconnected {
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/disconnected.svg);
+}
+
+.custom.disconnected div {
+  display: none;
+}
+
+.custom .triggers {
+  width: 588.4px;
+  height: 90.8px;
+  position: absolute;
+  left: 188.191px;
+}
+
+.custom .trigger {
+  width: 99px;
+  height: 100%;
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/triggers.svg);
+  opacity: 0;
+}
+
+.custom .trigger.left {
+  float: left;
+}
+
+.custom .trigger.right {
+  float: right;
+  background-position-x: 99px;
+}
+
+.custom .bumper {
+  width: 99px;
+  height: 22.4px;
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/bumper.svg) no-repeat;
+  opacity: 0;
+}
+
+.custom .bumpers {
+  position: absolute;
+  width: 588.4px;
+  height: 22.4px;
+  left: 188.191px;
+  top: 94.4px;
+}
+
+.custom .bumper.pressed {
+  opacity: 1;
+}
+
+.custom .bumper.left {
+  /* -webkit-transform: rotateY(180deg); */
+  /* transform: rotateY(180deg); */
+  float: left;
+}
+
+.custom .bumper.right {
+  float: right;
+  transform: rotateY(180deg);
+}
+
+.custom .touchpad {
+  width: 263.837px;
+  height: 151.2px;
+  position: absolute;
+  left: 350.487px;
+  top: 122.4px;
+}
+
+.custom .touchpad.pressed {
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/touchpad.svg) no-repeat center;
+}
+
+.custom .meta {
+  width: 41.99px;
+  height: 41.99px;
+  position: absolute;
+  left: 461.186px;
+  top: 340.383px;
+}
+
+.custom .meta.pressed {
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/meta.svg) no-repeat center;
+}
+
+/*Not needed, but I like keeping them here for posterity*/
+/*.custom .quadrant{
+position: absolute;
+background: url(ps4-assets/player-n.svg);
+height: 17px;
+width: 111px;
+top: 140px;
+left: 240px;
+}
+.custom .p0{
+background-position: 0 -6px;
+}
+.custom .p1{
+background-position: 0 -28px;
+}
+.custom .p2{
+background-position: 0 -49px;
+}
+.custom .p3{
+background-position: 0 -70px;
+}*/
+.custom .arrows {
+  position: absolute;
+  width: 352px;
+  height: 46px;
+  top: 181.891px;
+  left: 170.882px;
+}
+
+.custom .back,
+.custom .start {
+  position: absolute;
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/start.svg);
+  width: 28.4px;
+  height: 46.7px;
+  top: 0px;
+  left: 0px;
+  opacity: 0;
+}
+
+.custom .back.pressed,
+.custom .start.pressed {
+  /* background-position-y: -21px; */
+  /* margin-top: 2px; */
+  opacity: 1;
+}
+
+/*.custom .back {
+  position: absolute;
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/share.svg);
+  width: 28.4px;
+  height: 46.7px;
+  top: 142px;    
+  left: 306px;  
+  opacity: 0;
+}
+*/
+.custom .start {
+  position: absolute;
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/start.svg);
+  width: 28.4px;
+  height: 46.7px;
+  top: 142px;    /* Ajusta este valor */
+  left: 600px;   /* Ajusta este valor */
+  opacity: 0;
+  background-position: 28px 0; /* Si necesitas cambiar el icono */
+}
+
+.custom .abxy {
+  position: absolute;
+  width: 170px;
+  height: 171px;
+  top: 160px;
+  left: 646px;
+}
+
+.custom .button {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/face.svg);
+}
+
+.custom .button.pressed {
+  background-position-y: 55px;
+  /* margin-top: 5px; */
+}
+
+.custom .a {
+  background-position: 0 0;
+  bottom: 0;
+  left: 58px;
+}
+
+.custom .b {
+  background-position: -57px 0;
+  top: 58px;
+  right: 0px;
+}
+
+.custom .x {
+  background-position: -113px 0;
+  top: 58px;
+}
+
+.custom .y {
+  background-position: 55px 0;
+  left: 58px;
+}
+
+.custom .sticks {
+  position: absolute;
+  width: 351px;
+  height: 94px;
+  top: 309px;
+  left: 307px;
+}
+
+.custom .stick {
+  position: absolute;
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/sticks.svg);
+  height: 94px;
+  width: 94px;
+}
+
+.custom .stick.pressed.left {
+  background-position-x: -192px;
+}
+
+.custom .stick.pressed.right {
+  background-position-x: -288px;
+}
+
+.custom .stick.left {
+  top: 0;
+  left: 96;
+}
+
+.custom .stick.right {
+  top: calc(100% - 105px);
+  left: calc(100% - 105px);
+}
+
+.custom .dpad {
+  position: absolute;
+  width: 125px;
+  height: 126px;
+  top: 181px;
+  left: 170px;
+}
+
+.custom .face {
+  background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/dpad.svg);
+  position: absolute;
+}
+
+.custom .face.up,
+.custom .face.down {
+  width: 36px;
+  height: 52px;
+}
+
+.custom .face.left,
+.custom .face.right {
+  width: 52px;
+  height: 36px;
+}
+
+.custom .face.up {
+  left: 44px;
+  top: 0;
+  background-position: -37px 0px;
+}
+
+.custom .face.down {
+  left: 44px;
+  bottom: 0;
+  background-position: 0px 0;
+}
+
+.custom .face.left {
+  top: 45px;
+  left: 0;
+  background-position: 104px 0;
+}
+
+.custom .face.right {
+  top: 45px;
+  right: 0px;
+  background-position: 52px 0;
+}
+
+.custom .face.pressed {
+  /* margin-top: 5px; */
+  background-position-y: 52px;
+}
+
+.custom.half {
+  margin-top: -339.1785px;
+}
+
+/*END PS4 Controller Styling*/
+
+/*BEGIN PS4 White Controller Styling*/
+.controller.custom.white {
+  background-image: url(ps4-white-assets/base.svg);
+}
+
+.custom.white.disconnected {
+  background: url(ps4-assets/disconnected.svg);
+}
+
+.custom.white .trigger {
+  background-image: url(ps4-white-assets/triggers.svg);
+}
+
+.custom.white .bumper {
+  background-image: url(ps4-white-assets/bumper.svg);
+}
+
+.custom.white .touchpad.pressed {
+  background-image: url(ps4-white-assets/touchpad.svg);
+}
+
+.custom.white .back,
+.custom .start {
+  background-image: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/start.svg);
+}
+
+.custom.white .button {
+  background-image: url(ps4-white-assets/face.svg);
+}
+
+.custom.white .stick {
+  background-image: url(ps4-white-assets/sticks.svg);
+}
+
+.custom.white .face {
+  background-image: url(ps4-white-assets/dpad.svg);
+}
+
+/*END PS4 White Controller Styling*/

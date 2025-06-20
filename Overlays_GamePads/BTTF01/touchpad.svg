@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="263.83737"
+   height="137.3006"
+   viewBox="0 0 263.83737 137.3006"
+   sodipodi:docname="BTTF01.svg"
+   xml:space="preserve"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs1"><linearGradient
+       id="swatch9"
+       inkscape:swatch="solid"><stop
+         style="stop-color:#21008c;stop-opacity:1;"
+         offset="0"
+         id="stop9" /></linearGradient><linearGradient
+       id="swatch8"
+       inkscape:swatch="solid"><stop
+         style="stop-color:#4b0087;stop-opacity:1;"
+         offset="0"
+         id="stop8" /></linearGradient><style
+       id="style1">
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #b3b3b3;
+      }
+
+      .cls-3 {
+        fill: #0d0e13;
+      }
+
+      .cls-4 {
+        opacity: 0.06;
+      }
+
+      .cls-5 {
+        fill: #fff;
+      }
+
+      .cls-6 {
+        fill: #13161f;
+      }
+
+      .cls-7 {
+        fill: #0f1015;
+      }
+
+      .cls-8 {
+        fill: #121212;
+      }
+
+      .cls-9 {
+        fill: #080808;
+      }
+
+      .cls-10 {
+        fill: #1f1f1f;
+      }
+
+      .cls-11 {
+        fill: #e6e6e6;
+        opacity: 0.1;
+      }
+
+      .cls-11, .cls-12, .cls-13, .cls-14, .cls-17 {
+        isolation: isolate;
+      }
+
+      .cls-12, .cls-14, .cls-29 {
+        opacity: 0.08;
+      }
+
+      .cls-12 {
+        fill: url(#SVGID_4_);
+      }
+
+      .cls-13 {
+        opacity: 0.22;
+      }
+
+      .cls-14 {
+        fill: url(#SVGID_5_);
+      }
+
+      .cls-15 {
+        fill: #10111a;
+      }
+
+      .cls-16 {
+        fill: #1a1a1a;
+      }
+
+      .cls-17 {
+        opacity: 0.25;
+      }
+
+      .cls-18 {
+        opacity: 0.12;
+      }
+
+      .cls-19 {
+        fill: #0b0b0f;
+      }
+
+      .cls-20 {
+        fill: url(#SVGID_6_);
+      }
+
+      .cls-21 {
+        fill: #0f0f0f;
+      }
+
+      .cls-22 {
+        fill: #f66;
+      }
+
+      .cls-23 {
+        fill: #7cb2e8;
+      }
+
+      .cls-24 {
+        fill: #ff69f8;
+      }
+
+      .cls-25 {
+        fill: #40e2a0;
+      }
+
+      .cls-26 {
+        fill: #050505;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-27 {
+        fill: #f2f2f2;
+      }
+
+      .cls-28 {
+        fill: #0a0a0a;
+      }
+
+      .cls-30 {
+        fill: #ccc;
+      }
+    </style><pattern
+       id="SVGID_6_"
+       data-name="SVGID 6 "
+       width="71"
+       height="71"
+       patternTransform="translate(-13881.41 2292.1) scale(0.1)"
+       patternUnits="userSpaceOnUse"
+       viewBox="0 0 71 71"
+       inkscape:label="SVGID_6_"><rect
+         class="cls-1"
+         width="71"
+         height="71"
+         id="rect35" /><g
+         id="g37"><polygon
+           class="cls-1"
+           points="0 0 71 0 71 71 0 71 0 0"
+           id="polygon35" /><g
+           id="g36"><polygon
+             class="cls-1"
+             points="0 0 71 0 71 71 0 71 0 0"
+             id="polygon36" /><path
+             class="cls-2"
+             d="M41.8,35.5a6.3,6.3,0,1,1-6.3-6.3A6.27,6.27,0,0,1,41.8,35.5Z"
+             id="path36" /></g></g></pattern><style
+       id="style1-1">
+      .cls-1 {
+        fill: #0f0f0f;
+      }
+
+      .cls-2 {
+        fill: #121212;
+      }
+
+      .cls-3 {
+        fill: #141414;
+      }
+
+      .cls-4 {
+        fill: #f0f0f0;
+      }
+
+      .cls-5 {
+        fill: #ededed;
+      }
+
+      .cls-6 {
+        fill: #ebebeb;
+      }
+    </style></defs><sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#969696"
+     showgrid="false"
+     inkscape:zoom="1.36"
+     inkscape:cx="450.36765"
+     inkscape:cy="301.10294"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="3832"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g1" /><g
+     inkscape:groupmode="layer"
+     inkscape:label="Image"
+     id="g1"
+     transform="matrix(1.2214983,0,0,1.2214983,-274.43308,-15.761151)"
+     style="display:inline"
+     inkscape:export-filename="BTTF01\BTTF01.png"
+     inkscape:export-xdpi="24"
+     inkscape:export-ydpi="24"><g
+       id="g219"
+       style="display:inline;opacity:0.5"
+       inkscape:label="TOUCHPAD"
+       transform="matrix(0.81866671,0,0,0.74340653,2.7320551,-78.089467)"><path
+         class="cls-8"
+         d="m 534.8,128 a 6.57,6.57 0 0 0 -6.5,-5.6 H 277.7 a 6.48,6.48 0 0 0 -6.5,5.6 14.77,14.77 0 0 0 -0.1,2.1 v 127.4 a 16.09,16.09 0 0 0 16.1,16.1 h 231.6 a 16.09,16.09 0 0 0 16.1,-16.1 V 130.1 a 7.41,7.41 0 0 0 -0.1,-2.1 z"
+         id="path217"
+         style="display:inline"
+         sodipodi:insensitive="true"
+         inkscape:label="TOUCHPAD BASE" /><path
+         class="cls-9"
+         d="m 530.4,124.3 a 1.9,1.9 0 0 0 -1.9,-1.9 H 277.4 a 1.9,1.9 0 0 0 -1.9,1.9 v 129.2 a 15.62,15.62 0 0 0 15.6,15.6 h 223.8 a 15.62,15.62 0 0 0 15.6,-15.6 V 130.4 Z"
+         id="path218"
+         inkscape:label="TOUCHPAD IN"
+         style="display:inline" /><path
+         class="cls-20"
+         d="m 275.5,253.5 a 15.62,15.62 0 0 0 15.6,15.6 h 223.8 a 15.62,15.62 0 0 0 15.6,-15.6 V 147 h -255 z"
+         id="path219"
+         style="display:inline"
+         inkscape:label="TOUCHPAD GRID" /></g></g></svg>
