@@ -239,20 +239,20 @@ background-position: 0 -70px;
 
 .custom .stick.left {
   top: 0;
-  left: 96;
+  left: 99.300;
 }
 
 .custom .stick.right {
-  top: calc(100% - 105px);
-  left: calc(100% - 105px);
+  top: 0;
+  left: calc(100% - 99.300px);
 }
 
 .custom .dpad {
   position: absolute;
-  width: 125px;
-  height: 126px;
-  top: 181px;
-  left: 170px;
+  width: 125.000px;
+  height: 126.000px;
+  top: 172.294px;
+  left: 138.235px;
 }
 
 .custom .face {
