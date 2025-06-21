@@ -95,6 +95,7 @@
 
 .custom .meta.pressed {
   background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/meta.svg) no-repeat center;
+  opacity: 1;
 }
 
 /*Not needed, but I like keeping them here for posterity*/
@@ -215,25 +216,25 @@ background-position: 0 -70px;
 
 .custom .sticks {
   position: absolute;
-  width: 351px;
-  height: 94px;
-  top: 309px;
-  left: 307px;
+  width: 371.300px;
+  height: 99.300px;
+  top: 293.000px;
+  left: 270.000px;
 }
 
 .custom .stick {
   position: absolute;
   background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/sticks.svg);
-  height: 94px;
-  width: 94px;
+  height: 99.300px;
+  width: 99.300px;
 }
 
 .custom .stick.pressed.left {
-  background-position-x: -192px;
+  background-position-x: -202.826px;
 }
 
 .custom .stick.pressed.right {
-  background-position-x: -288px;
+  background-position-x: -304.238px;
 }
 
 .custom .stick.left {
