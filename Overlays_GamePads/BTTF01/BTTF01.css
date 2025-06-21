@@ -2,7 +2,7 @@
 .keyboard-keys {
   position: absolute;
   left: 50%;
-  bottom: 40px; /* Ajusta según tu overlay */
+  top: 40px; /* Ajusta según tu overlay */
   transform: translateX(-50%);
   width: 120px;
   height: 120px;
