@@ -172,21 +172,21 @@ background-position: 0 -70px;
 
 .custom .abxy {
   position: absolute;
-  width: 153.297px;
-  height: 144.224px;
-  top: 160.757px;
-  left: 623.469px;
+  left: 622.100px;
+  top: 159.700px;
+  width: 155.976px;
+  height: 146.376px;
 }
 
 .custom .button {
   position: absolute;
-  width: 54.600px;
-  height: 54.600px;
+  width: 45.776px;
+  height: 45.776px;
   background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/face.svg);
 }
 
 .custom .button.pressed {
-  background-position-y: 55px;
+  background-position-y: 47.369px;
   /* margin-top: 5px; */
 }
 
