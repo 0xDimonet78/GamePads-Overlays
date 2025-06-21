@@ -75,10 +75,10 @@
 
 .custom .touchpad {
   width: 263.837px;
-  height: 151.2px;
+  height: 137.301px;
   position: absolute;
-  left: 350.487px;
-  top: 122.4px;
+  left: 318.081px;
+  top: 115.761px;
 }
 
 .custom .touchpad.pressed {
@@ -87,10 +87,10 @@
 
 .custom .meta {
   width: 41.99px;
-  height: 41.99px;
+  height: 41.580px;
   position: absolute;
-  left: 461.186px;
-  top: 340.383px;
+  left: 435.205px;
+  top: 315.116px;
 }
 
 .custom .meta.pressed {
