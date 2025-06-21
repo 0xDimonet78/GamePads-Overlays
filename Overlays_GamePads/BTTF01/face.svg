@@ -191,9 +191,9 @@
      inkscape:pagecheckerboard="true"
      inkscape:deskcolor="#969696"
      showgrid="false"
-     inkscape:zoom="1.355"
-     inkscape:cx="450.1845"
-     inkscape:cy="300"
+     inkscape:zoom="0.98641396"
+     inkscape:cx="459.23924"
+     inkscape:cy="222.52321"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="3832"
@@ -212,7 +212,7 @@
        inkscape:label="FACE"
        transform="translate(558.51263,224.37533)"
        style="display:inline"
-       inkscape:export-filename="..\..\..\TD2_Maps.github.io\images\OverlayPS4-VirtualValhalla\face.svg"
+       inkscape:export-filename="face.svg"
        inkscape:export-xdpi="24"
        inkscape:export-ydpi="24"><g
          id="g46"
@@ -279,7 +279,7 @@
                id="path27"
                style="fill:#f0f0f0" /></g><polygon
              class="cls-4"
-             points="27.3,87.1 39.6,99.5 41.6,97.4 29.3,85.1 41.6,72.7 39.6,70.7 27.3,83.1 14.9,70.7 12.9,72.7 25.2,85.1 12.9,97.4 14.9,99.5 "
+             points="27.3,83.1 14.9,70.7 12.9,72.7 25.2,85.1 12.9,97.4 14.9,99.5 27.3,87.1 39.6,99.5 41.6,97.4 29.3,85.1 41.6,72.7 39.6,70.7 "
              id="polygon37"
              style="fill:#824e20" /></g></g><g
          id="g70"
@@ -348,6 +348,6 @@
                id="path62"
                style="fill:#0f0f0f" /></g><polygon
              class="cls-10"
-             points="25.2,27.2 12.9,39.6 14.9,41.6 27.3,29.3 39.6,41.6 41.6,39.6 29.3,27.2 41.6,14.9 39.6,12.9 27.3,25.2 14.9,12.9 12.9,14.9 "
+             points="29.3,27.2 41.6,14.9 39.6,12.9 27.3,25.2 14.9,12.9 12.9,14.9 25.2,27.2 12.9,39.6 14.9,41.6 27.3,29.3 39.6,41.6 41.6,39.6 "
              id="polygon62"
              style="fill:#7fb1df" /></g></g></g></g></svg>
