@@ -1,42 +1,5 @@
 /* Overlays_GamePads/BTTF01 */
-.keyboard-keys {
-  position: absolute;
-  left: 50%;
-  top: 40px; /* Ajusta según tu overlay */
-  transform: translateX(-50%);
-  width: 120px;
-  height: 120px;
-  pointer-events: none;
-}
 
-.keyboard-keys .key {
-  background: #222;
-  color: #fff;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 22px;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  margin: 2px 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  opacity: 0.9;
-  min-width: 40px;
-  text-align: center;
-  position: absolute;
-  transition: background 0.1s, color 0.1s;
-}
-
-/* Distribución tipo cruz */
-.key-w { top: 0; left: 40px; }
-.key-a { top: 40px; left: 0; }
-.key-s { top: 80px; left: 40px; }
-.key-d { top: 40px; left: 80px; }
-
-.key.pressed {
-  background: #00bfff;
-  color: #fff;
-  box-shadow: 0 0 25px #00bfff;
-  opacity: 1;
-}
 
 
 
