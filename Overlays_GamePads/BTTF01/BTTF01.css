@@ -44,18 +44,18 @@
 }
 
 .custom .bumper {
-  width: 99px;
-  height: 22.4px;
+  width: 110.828px;
+  height: 21.000px;
   background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/bumper.svg) no-repeat;
   opacity: 0;
 }
 
 .custom .bumpers {
   position: absolute;
-  width: 588.4px;
-  height: 22.4px;
-  left: 188.191px;
-  top: 94.4px;
+  width: 588.372px;
+  height: 21.000px;
+  left: 155.814px;
+  top: 99.000px;
 }
 
 .custom .bumper.pressed {
