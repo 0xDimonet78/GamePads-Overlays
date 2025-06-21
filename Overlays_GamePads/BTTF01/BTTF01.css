@@ -117,7 +117,8 @@ background-position: 0 -49px;
 }
 .custom .p3{
 background-position: 0 -70px;
-}*/
+}
+
 .custom .arrows {
   position: absolute;
   width: 352px;
@@ -125,15 +126,17 @@ background-position: 0 -70px;
   top: 181.891px;
   left: 170.882px;
 }
+*/
+
 
 .custom .back,
 .custom .start {
   position: absolute;
   background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/start.svg);
-  width: 28.4px;
-  height: 46.7px;
-  top: 0px;
-  left: 0px;
+  width: 23.371px;
+  height: 40.000px;
+  top: 136.000px;
+  left: 268.500px;
   opacity: 0;
 }
 
@@ -157,20 +160,20 @@ background-position: 0 -70px;
 .custom .start {
   position: absolute;
   background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/BTTF01/start.svg);
-  width: 28.4px;
-  height: 46.7px;
-  top: 142px;    /* Ajusta este valor */
-  left: 600px;   /* Ajusta este valor */
+  width: 23.371px;
+  height: 40.000px;
+  top: 136.000px;    /* Ajusta este valor */
+  left: 608.000px;   /* Ajusta este valor */
   opacity: 0;
   background-position: 28px 0; /* Si necesitas cambiar el icono */
 }
 
 .custom .abxy {
   position: absolute;
-  width: 170px;
-  height: 171px;
-  top: 160px;
-  left: 646px;
+  width: 162.544px;
+  height: 152.505px;
+  top: 157.395px;
+  left: 619.000px;
 }
 
 .custom .button {
