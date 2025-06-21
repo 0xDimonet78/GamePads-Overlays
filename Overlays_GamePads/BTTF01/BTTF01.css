@@ -187,30 +187,31 @@ background-position: 0 -70px;
 }
 
 .custom .button.pressed {
-  background-position-y: 47.369px;
+  background-position-y: 45.776px;
   /* margin-top: 5px; */
 }
 
 .custom .a {
   background-position: 0 0;
-  bottom: 0;
-  left: 58px;
+  top: 100.600px;
+  left: 57.500px;
 }
 
 .custom .b {
   background-position: -57px 0;
-  top: 58px;
-  right: 0px;
+  top: 50.700px;
+  left: 110.200px;
 }
 
 .custom .x {
   background-position: -113px 0;
-  top: 58px;
+  top: 50.300px;
+  left: 0px;
 }
 
 .custom .y {
   background-position: 55px 0;
-  left: 58px;
+  left: 53.100px;
 }
 
 .custom .sticks {
