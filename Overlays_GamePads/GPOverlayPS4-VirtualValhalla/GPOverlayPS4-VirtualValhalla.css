@@ -129,8 +129,8 @@ background-position: 0 -70px;
   background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4-VirtualValhalla/start.svg);
   width: 28.4px;
   height: 46.7px;
-  top: 0px;
-  left: 0px;
+  top: 142.000px;
+  left: 306.000px;
   opacity: 0;
 }
 
@@ -156,8 +156,8 @@ background-position: 0 -70px;
   background: url(https://0xdimonet78.github.io/streaming-hub/Overlays_GamePads/GPOverlayPS4-VirtualValhalla/start.svg);
   width: 28.4px;
   height: 46.7px;
-  top: 142px;    /* Ajusta este valor */
-  left: 600px;   /* Ajusta este valor */
+  top: 142.0002px;    /* Ajusta este valor */
+  left: 630.000px;   /* Ajusta este valor */
   opacity: 0;
   background-position: 28px 0; /* Si necesitas cambiar el icono */
 }
