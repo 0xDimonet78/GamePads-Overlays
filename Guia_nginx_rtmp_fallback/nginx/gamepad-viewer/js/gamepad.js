@@ -63,6 +63,13 @@ class Gamepad {
                 colors: ["black", "white", "red", "blue"],
                 triggers: true,
             },
+            ds5: {
+                id: /debug/,
+                // id: /054c|54c|09cc|046d|0810|2563/, // 054c = Sony vendor code, 046d,0810,2563 = PS-like controllers vendor codes
+                name: "DualShock 5",
+                colors: ["black"],
+                triggers: true,
+            },
             // gamecube: {
             //     id: /0079/, // 0079 = Nintendo GameCube vendor code
             //     name: "GameCube Controller",

@@ -7,6 +7,7 @@
     background-image: url(base-black.svg);
 }
 
+/*
 #gamepad[data-color="white"] {
     background-image: url(base-white.svg);
 }
@@ -18,6 +19,7 @@
 #gamepad[data-color="blue"] {
     background-image: url(base-blue.svg);
 }
+*/
 
 #gamepad.disconnected {
     background-image: url(disconnected.svg);
