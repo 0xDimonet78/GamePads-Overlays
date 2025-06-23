@@ -1124,7 +1124,7 @@ class Gamepad {
             .filter(([, value]) => value !== undefined && value !== null)
             .map(([key, value]) => `${key}=${value}`)
             .join("&");
-        window.history.replaceState({}, document.title, `/?${query}`);
+        window.history.replaceState({}, document.title, `${window.location.pathname}?${query}`);
     }
 }
 
