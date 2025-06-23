@@ -1,0 +1,68 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    overflow: hidden;
+}
+
+#overlay-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    font-family: sans-serif;
+    pointer-events: none;
+}
+
+/* Mando */
+#gamepad-status {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+}
+
+/* Teclado */
+#keyboard-keys {
+    position: absolute;
+    bottom: 60px;
+    left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 600px;
+    gap: 5px;
+}
+
+.key {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 5px 8px;
+    border-radius: 4px;
+    color: white;
+    font-size: 14px;
+    transition: all 0.1s ease;
+}
+
+.key.pressed {
+    background: rgba(0, 200, 255, 0.6);
+    transform: scale(1.2);
+}
+
+/* Ratón */
+#mouse-indicator {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+    mix-blend-mode: difference;
+}
+
+.click {
+    animation: clickAnim 0.3s ease;
+}
+
+@keyframes clickAnim {
+    0% { transform: scale(1); background: red; }
+    100% { transform: scale(1.5); background: transparent; }
+}
